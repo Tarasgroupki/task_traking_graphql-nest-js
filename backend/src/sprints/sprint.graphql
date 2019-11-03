@@ -1,0 +1,14 @@
+type Sprint {
+  id: ID!
+  title: String
+  description: String
+  status: Int
+  lead: [Lead!]
+  user: [User!]
+  deadline: String
+}
+
+type Query {
+  sprints: [Sprint!]
+  sprint(id: ID!): [Sprint!]
+}

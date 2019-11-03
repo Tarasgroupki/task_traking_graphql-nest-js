@@ -1,0 +1,13 @@
+<h1>
+  Viewing lead:
+</h1>
+<mat-list role="list">
+  <mat-list-item role="listitem">ID: {{ lead.id }}</mat-list-item>
+  <mat-list-item role="listitem">Name: {{lead.title}}</mat-list-item>
+  <mat-list-item role="listitem">Description: {{lead.description}}</mat-list-item>
+  <mat-list-item role="listitem">Status: {{lead.status}}</mat-list-item>
+  <mat-list-item role="listitem">Client: {{lead.client[0].name}}</mat-list-item>
+  <mat-list-item role="listitem">User Created: {{lead.user[0].name}}</mat-list-item>
+</mat-list>
+<a routerLink="/leads/add/{{ lead.id }}" routerLinkActive="active"><button mat-button class="edit">{{ 'Редагувати' }}</button></a>
+<a routerLink="/leads/delete/{{ lead.id }}" routerLinkActive="active"><button mat-button class="delete">{{ 'Видалити' }}</button></a>

@@ -1,0 +1,13 @@
+.changed_row {
+    display: block;
+    font-size: 25px;
+    position: absolute;
+    left: 200px;
+    top: 30px;
+    /*margin-left: 200px;
+    margin-top: -40px;*/
+}
+
+.not_changed_row {
+    display: none;
+}

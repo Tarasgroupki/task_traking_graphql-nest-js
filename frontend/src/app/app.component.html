@@ -1,0 +1,120 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div *ngIf="route !== '/login' && route !== '**'">
+    <div class="container">
+
+        <mat-toolbar class="top-menu">
+            <a href="javascript:void(0)" [ngClass]="(parameter === false) ? 'menu-slide-wrapper' : 'menu-slide-wrapper-active'"><mat-icon class="menu-slide" (click)="drawer.toggle();changePannel();openByClick();" matBadgeColor="warn" aria-label="build icon">menu</mat-icon></a>
+            <div class="delimiter"></div>
+            <div style="margin-top: 10px; margin-right: 20px;"><mat-icon class="main_count" *ngIf="(websocketService.notifications_counter | async) as notification_counter" (click)="openDialog()" matBadge="{{notification_counter}}" matBadgeColor="warn" aria-label="build icon">notification_important</mat-icon>
+                <mat-icon class="not_main_count" *ngIf="!(websocketService.notifications_counter | async) as notification_counter" (click)="openDialog()" matBadge="{{notif_counter}}" matBadgeColor="warn" aria-label="build icon">notification_important</mat-icon></div>
+            <div class="item" *ngIf="userService.currentUser | async as user">
+                  User: {{  user.email  }}
+            </div>
+
+        </mat-toolbar>
+
+        <div class="content">
+
+        <div class="navbar">
+            <nav [ngClass]="(showFiller === false) ? 'small-pannel' : 'small-pannel-active'">
+            <div class="item-panel" (mouseenter)="drawer.toggle();openPanel();"><mat-icon class="func-icons"  aria-label="build icon">person</mat-icon></div>
+            <div class="item-panel" (mouseenter)="drawer.toggle();openPanel();"><mat-icon class="func-icons"  aria-label="build icon">group</mat-icon></div>
+            <div class="item-panel" (mouseenter)="drawer.toggle();openPanel();"><mat-icon class="func-icons"  aria-label="build icon">work</mat-icon></div>
+            <div class="item-panel" (mouseenter)="drawer.toggle();openPanel();"><mat-icon class="func-icons"  aria-label="build icon">perm_identity</mat-icon></div>
+            <div class="item-panel" (mouseenter)="drawer.toggle();openPanel();"><mat-icon class="func-icons"  aria-label="build icon">list</mat-icon></div>
+            <div class="item-panel" (mouseenter)="drawer.toggle();openPanel();"><mat-icon class="func-icons"  aria-label="build icon">library_books</mat-icon></div>
+            <div class="item-panel" (mouseenter)="drawer.toggle();openPanel();"><mat-icon class="func-icons"  aria-label="build icon">settings</mat-icon></div>
+            <div class="item-panel" (mouseenter)="drawer.toggle();openPanel();"><mat-icon class="func-icons"  aria-label="build icon">power_settings_new</mat-icon></div>
+            </nav>
+        </div>
+                <mat-drawer-container class="example-container" autosize>
+        <mat-drawer #drawer [disableClose]="true" class="sidenav"><nav class="big-pannel" (mouseleave)="(parameter === false) ? drawer.toggle() && closePannel() : null" *ngIf="(userService.permissions | async) || LogginningData['permissions'] as permissions">
+            <img style="margin-left: 30px" width="250" height="150px" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+            <mat-accordion>
+                <a class="links" style="text-align: center;" routerLink="profile" routerLinkActive="active"><button style="text-align: center;position: relative;width:100%;" mat-button><h2><mat-icon class="main-menu-icons" aria-label="build icon">person</mat-icon>Особистий кабінет</h2></button></a>
+                <mat-expansion-panel *ngIf="permissions.indexOf( 'create-clients' ) != -1">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon class="menu-icons" aria-label="build icon">group</mat-icon><h3>Клієнти</h3>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <a class="links" *ngIf="permissions.indexOf( 'create-clients' ) != -1" routerLink="clients/create" routerLinkActive="active">Добавити нового клієнта</a>
+                    <br />
+                    <a class="links" *ngIf="permissions.indexOf( 'create-clients' ) != -1" routerLink="clients" routerLinkActive="active">Список клієнтів</a>
+
+                </mat-expansion-panel>
+                <mat-expansion-panel *ngIf="permissions.indexOf( 'create-tasks' ) != -1" (opened)="panelOpenState = true"
+                                     (closed)="panelOpenState = false">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon class="menu-icons" aria-label="build icon">work</mat-icon><h3>Завдання</h3>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <a class="links" *ngIf="permissions.indexOf( 'create-tasks' ) != -1" routerLink="task/create" routerLinkActive="active">Добавити нове завдання</a>
+                    <br />
+                    <a class="links" *ngIf="permissions.indexOf( 'create-tasks' ) != -1" routerLink="tasks" routerLinkActive="active">Список завдань</a>
+                    <br />
+                    <a class="links" *ngIf="permissions.indexOf( 'create-clients' ) != -1" routerLink="graph" routerLinkActive="active">Діаграма виконаних завдань</a>
+                </mat-expansion-panel>
+                <mat-expansion-panel *ngIf="permissions.indexOf( 'create-users' ) != -1" (opened)="panelOpenState = true"
+                                     (closed)="panelOpenState = false">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon class="menu-icons" aria-label="build icon">perm_identity</mat-icon><h3>Користувачі</h3>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <a class="links" *ngIf="permissions.indexOf( 'create-users' ) != -1" routerLink="user/create" routerLinkActive="active">Добавити нового користувача</a>
+                    <br />
+                    <a class="links" *ngIf="permissions.indexOf( 'create-users' ) != -1" routerLink="users" routerLinkActive="active">Список користувачів</a>
+                </mat-expansion-panel>
+                <mat-expansion-panel
+                        *ngIf="permissions.indexOf( 'create-leads' ) != -1"
+                        (opened)="panelOpenState = true"
+                        (closed)="panelOpenState = false">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon class="menu-icons" aria-label="build icon">list</mat-icon><h3>Терміни</h3>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <a class="links" *ngIf="permissions.indexOf( 'create-leads' ) != -1" routerLink="lead/create" routerLinkActive="active">Добавити новий термін</a>
+                    <br />
+                    <a class="links" *ngIf="permissions.indexOf( 'create-leads' ) != -1" routerLink="leads" routerLinkActive="active">Список термінів</a>
+                </mat-expansion-panel>
+                <mat-expansion-panel
+                        *ngIf="permissions.indexOf( 'create-sprints' ) != -1"
+                        (opened)="panelOpenState = true"
+                        (closed)="panelOpenState = false">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon class="menu-icons" aria-label="build icon">library_books</mat-icon><h3>Блоки</h3>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <a class="links" *ngIf="permissions.indexOf( 'create-sprints' ) != -1" routerLink="sprint/create" routerLinkActive="active">Добавити новий спрінт</a>
+                    <br />
+                    <a class="links" *ngIf="permissions.indexOf( 'create-sprints' ) != -1" routerLink="sprints" routerLinkActive="active">Список спрінтів</a>
+                </mat-expansion-panel>
+                <mat-expansion-panel *ngIf="permissions.indexOf( 'create-roles' ) != -1" (opened)="panelOpenState = true"
+                                     (closed)="panelOpenState = false">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon class="menu-icons" aria-label="build icon">settings</mat-icon><h3>Налаштування</h3>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <a class="links" *ngIf="permissions.indexOf( 'create-roles' ) != -1" routerLink="roles" routerLinkActive="active">Керування ролями</a>
+                </mat-expansion-panel>
+                <a class="links" style="text-align: center;" routerLinkActive="active" (click)="removeAuth()"><button style="text-align: center;position: relative;width:100%;" mat-button><h2><mat-icon class="main-menu-icons" aria-label="build icon">power_settings_new</mat-icon>Вихід</h2></button></a>
+            </mat-accordion>
+        </nav></mat-drawer>
+        </mat-drawer-container>
+        <div [ngClass]="(showFiller === true) ? 'main_active' : 'main'" >
+            <router-outlet></router-outlet>
+        </div>
+
+        </div>
+
+</div>
+</div>
+<div *ngIf="route == '/login'">
+    <app-auth></app-auth>
+</div>

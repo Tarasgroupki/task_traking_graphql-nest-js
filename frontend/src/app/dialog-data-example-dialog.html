@@ -1,0 +1,8 @@
+<h1 mat-dialog-title>My Notifications:</h1>
+
+<div *ngIf="show" mat-dialog-content>
+ <div *ngFor="let notification of websocketService.notifications | async" style="background-color: lightcyan">
+  <div (click)="deleteNotifications(notification.id) || reload(notification, websocketService.notifications)" style="float:right">&#10006;</div>
+  <a style="text-decoration: none; color: black" href="leads/{{notification.lead_id}}"><div class="title">{{notification.name}}</div>
+   <div class="desc">{{notification.description}}</div></a><hr /></div>
+</div>

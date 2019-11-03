@@ -1,0 +1,37 @@
+/*.show {
+    color: white;
+    background-color: #17a2b8;
+    text-align: center;
+}
+.edit {
+    margin-top: 35%;
+    text-align: center;
+}
+.edit:hover {
+    background-color: aqua;
+}
+.delete {
+    margin-bottom: 35%;
+    margin-left: -100%;
+    text-align: left;
+}
+.delete:hover {
+    background-color: deeppink;
+}
+.buttons {
+   margin-left: 1%;
+}
+*/
+.changed_row {
+    display: block;
+    font-size: 25px;
+    position: absolute;
+    left: 200px;
+    top: 30px;
+    /*margin-left: 200px;
+    margin-top: -40px;*/
+}
+
+.not_changed_row {
+    display: none;
+}

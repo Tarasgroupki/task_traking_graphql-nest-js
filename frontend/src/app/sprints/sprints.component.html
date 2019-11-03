@@ -1,0 +1,51 @@
+<div>
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field>
+<mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
+  <ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+    <mat-cell *matCellDef="let sprint"> {{sprint.id}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+    <mat-cell *matCellDef="let sprint"><a routerLink="/sprints/{{sprint.id}}" routerLinkActive="active"> {{sprint.title}} </a></mat-cell>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="description">
+    <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+    <mat-cell *matCellDef="let sprint"> {{sprint.description}} </mat-cell>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="status">
+    <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+    <mat-cell *matCellDef="let sprint"> {{sprint.status}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="lead_assigned">
+    <mat-header-cell *matHeaderCellDef> Assigned Lead </mat-header-cell>
+    <mat-cell *matCellDef="let sprint"> {{sprint.lead[0].title}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="user_created">
+    <mat-header-cell *matHeaderCellDef> Created By </mat-header-cell>
+    <mat-cell *matCellDef="let sprint"> {{sprint.user[0].name}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="deadline">
+    <mat-header-cell *matHeaderCellDef> Buttons </mat-header-cell>
+    <mat-cell *matCellDef="let sprint">
+      <a routerLink="/sprints/add/{{ sprint.id }}" routerLinkActive="active"><mat-icon aria-hidden="false" aria-label="build icon">build</mat-icon></a>
+      <a routerLink="/sprints/delete/{{ sprint.id }}" routerLinkActive="active"><mat-icon aria-hidden="false" aria-label="delete icon">delete</mat-icon></a>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+</mat-table>
+  <mat-paginator [length]="25"
+                 [pageSize]="5"
+                 [pageSizeOptions]="[5, 10, 25]">
+  </mat-paginator>
+</div>

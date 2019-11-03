@@ -1,0 +1,14 @@
+type Task {
+  id: ID!
+  title: String
+  description: String
+  status: Int
+  user: [User!]
+  deadline: String
+  sprint: [Sprint!]
+}
+
+type Query {
+  tasks: [Task!]
+  task(id: ID!): [Task!]
+}

@@ -1,0 +1,40 @@
+scalar Date
+
+type Lead {
+  id: ID!
+  title: String
+  description: String
+  status: Int
+  user_assigned: Int
+  client_id: Int
+  client: [Client!]
+  user: [User!]
+  contact_date: Date
+}
+
+input LeadInput {
+   id: Int
+   title: String
+   description: String
+   status: Int
+   user_assigned: Int
+   client: Int
+   user_created: Int
+   contact_date: Date
+}
+
+type Mutation {
+  createLead(lead: LeadInput): Lead,
+  updateLead(lead: LeadInput): Lead,
+  deleteLeads(arr_id: [Int]): Int,
+  deleteLead(id: ID!): Int
+}
+
+type Query {
+  leads: [Lead!]
+  lead(id: ID!): [Lead!]
+}
+
+type Subscription {
+  notificationAdded: Lead
+}

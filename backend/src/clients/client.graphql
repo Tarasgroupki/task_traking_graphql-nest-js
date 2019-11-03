@@ -1,0 +1,49 @@
+scalar JSON
+
+type Client {
+  id: Int!
+  name: String!
+  email: String!
+  primary_number: String!
+  secondary_number: String!
+  address: String!
+  zipcode: String!
+  city: String!
+  company_name: String!
+  vat: String!
+  company_type: String!
+  industry: Int
+  user: [User!]
+}
+
+input ClientInput {
+   id: Int
+   name: String
+   email: String
+   primary_number: String
+   secondary_number: String
+   address: String
+   zipcode: String
+   city: String
+   company_name: String
+   vat: String
+   company_type: String
+   industry: Int
+   user: Int
+}
+
+input ClientArrayInput {
+   arr_id: [Int]
+}
+
+type Mutation {
+  createClient(client: ClientInput): Client,
+  updateClient(client: ClientInput): Client,
+  deleteClients(arr_id: [Int]): Int,
+  deleteClient(id: ID!): Int
+}
+
+type Query {
+  clients: [Client!]
+  client(id: ID!): [Client!]
+}

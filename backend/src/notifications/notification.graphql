@@ -1,0 +1,33 @@
+type Notification {
+  id: ID!
+  name: String
+  description: String
+  status: Int
+  user: [User!]
+}
+
+type NotificationHasClient {
+  id: ID!
+  notification: [Notification!]
+  client: [Client!]
+}
+
+type Array {
+   id: Int
+}
+
+type NotificationHasLead {
+  id: ID!
+  notification_id: Array
+  lead_id: Array
+}
+
+type Query {
+  notificationHasLead(id: Int!): [Array!]
+  notifications: [Notification!]
+  notificationsByUserAndStatus(userId: Int!): [Notification!]
+}
+
+type Mutation {
+  deleteNotification(id: ID!): Int
+}

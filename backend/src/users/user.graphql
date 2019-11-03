@@ -1,0 +1,42 @@
+type User {
+  id: ID
+  name: String
+  email: String
+  address: String
+  work_number: String
+  personal_number: String
+  image_path: String
+}
+
+type Auth {
+   user: User
+   token: String
+   roles: [String]
+   permissions: [String]
+}
+
+type Register {
+   name: String
+   email: String
+}
+
+input AuthInput {
+   email: String
+   password: String
+}
+
+input RegisterInput {
+   name: String
+   email: String
+   password: String
+}
+
+type Query {
+  users: [User!]
+  user(id: ID!): [User!]
+}
+
+type Mutation {
+    login(auth: AuthInput): Auth,
+    register(auth: RegisterInput): Register
+}

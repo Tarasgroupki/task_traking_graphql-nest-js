@@ -1,0 +1,68 @@
+<div>
+    <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+    <mat-icon [ngClass]="(isSelected() === true) ? 'changed_row' : 'not_changed_row'" (click)="DeleteSelected()" aria-hidden="false" aria-label="delete icon">delete</mat-icon>
+    <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="select">
+            <mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? masterToggle() : null"
+                              [checked]="selection.hasValue() && isAllSelected()"
+                              [indeterminate]="selection.hasValue() && !isAllSelected()"
+                              [aria-label]="checkboxLabel()">
+                </mat-checkbox>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()"
+                              (change)="$event ? selection.toggle(row) : null"
+                              [checked]="selection.isSelected(row)"
+                              [aria-label]="checkboxLabel(row)">
+                </mat-checkbox>
+            </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+            <mat-cell *matCellDef="let lead"> {{lead.id}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
+            <mat-cell *matCellDef="let lead"><a routerLink="/leads/{{ lead.id }}" routerLinkActive="active"> {{lead.title}} </a></mat-cell>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="description">
+            <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+            <mat-cell *matCellDef="let lead"> {{lead.description}} </mat-cell>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+            <mat-cell *matCellDef="let lead"> {{lead.status}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="client">
+            <mat-header-cell *matHeaderCellDef> Client </mat-header-cell>
+            <mat-cell *matCellDef="let lead"> {{lead.client[0].name}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="user_assigned">
+            <mat-header-cell *matHeaderCellDef> Assigned To </mat-header-cell>
+            <mat-cell *matCellDef="let lead"> {{lead.user[0].name}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="contact_date">
+            <mat-header-cell *matHeaderCellDef> Buttons </mat-header-cell>
+            <mat-cell *matCellDef="let lead">
+                <a routerLink="/leads/add/{{ lead['id'] }}" routerLinkActive="active"><mat-icon aria-hidden="false" aria-label="build icon">build</mat-icon></a>
+                <a routerLink="/leads/delete/{{ lead['id'] }}" routerLinkActive="active"><mat-icon aria-hidden="false" aria-label="delete icon">delete</mat-icon></a>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+    <mat-paginator [length]="25"
+                   [pageSize]="5"
+                   [pageSizeOptions]="[5, 10, 25]">
+    </mat-paginator>
+</div>
