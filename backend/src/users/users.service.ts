@@ -6,12 +6,14 @@ import { User } from './user.entity';
 import { UserHasRole } from './user_has_role.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import {Role} from '../settings/role.entity';
 
 @Injectable()
 export class UsersService {
     private saltRounds = 10;
 
     constructor(@InjectRepository(User) private readonly userRepository: Repository<User>,
+                @InjectRepository(Role) private readonly roleRepository: Repository<Role>,
                 @InjectRepository(UserHasRole)  private readonly userHasRoleRepository: Repository<UserHasRole>,
     ) {
        // super(repo);
@@ -37,6 +39,12 @@ export class UsersService {
 
     async getUsers(): Promise<User[]> {
         return await this.userRepository.find();
+    }
+
+    async getRoles(userId): Promise<Role[]> {
+        return await this.roleRepository.find({
+            where: {id: userId},
+        });
     }
 
     async getUserByUsername(email: string): Promise<User> {

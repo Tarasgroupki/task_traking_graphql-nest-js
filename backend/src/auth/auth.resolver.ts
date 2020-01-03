@@ -34,27 +34,30 @@ export class AuthResolver {
         const user = await this.userService.getUserByUsername(auth.email);
         const user_has_roles = await this.userService.findUserRoles(user.id);
         const role_has_permissions = await this.roleService.findOneRoleHasPermById(user_has_roles[0].role_id);
+        const roles = await this.userService.getRoles(user.id);
         let perms = [];
         role_has_permissions.forEach((item) => {
             perms.push(item['permission_id']);
         });
         const permissions = await this.permissionService.findPermsOfRole(perms);
+        let roles_arr = [];
         let permission_names = [];
         let permission_slugs = [];
+        roles.forEach((item) => {
+            roles_arr.push(item['name']);
+        });
         permissions.forEach((item) => {
             permission_names.push(item['name']);
             permission_slugs.push(item['name'].replace(" ","-"));
         });
-        console.log('us', user.id);
         if (user) {
-
             const token = await this.authService.login(user.id, user.email, permission_names);
             if (await this.userService.compareHash(auth.password, user.passwordHash)) {
                 return {
                     message: 'Auth succesfull!',
                     user: user,
                     token: token.token,
-                    roles: ['admin'],
+                    roles: roles_arr,
                     permissions: permission_slugs
                 };
             }

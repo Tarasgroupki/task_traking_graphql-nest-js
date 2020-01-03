@@ -11,9 +11,10 @@ import { ClientResolver } from './client.resolver';
 import { ClientsController } from './clients.controller';
 import {User} from '../users/user.entity';
 import {UserHasRole} from '../users/user_has_role.entity';
+import {Role} from '../settings/role.entity';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Client, User, UserHasRole])],
+    imports: [TypeOrmModule.forFeature([Role, Client, User, UserHasRole])],
     providers: [ClientsService,
         {
             provide: APP_GUARD,

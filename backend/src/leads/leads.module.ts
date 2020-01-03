@@ -19,9 +19,10 @@ import { NotificationHasClient } from '../notifications/notification_has_client.
 import { DateScalar } from '../date.scalar';
 import {NotificationResolver} from '../notifications/notification.resolver';
 import {PubSub} from 'graphql-subscriptions';
+import {Role} from '../settings/role.entity';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Lead, Client, User, UserHasRole, Notification, NotificationHasLead, NotificationHasClient])],
+    imports: [TypeOrmModule.forFeature([Role, Lead, Client, User, UserHasRole, Notification, NotificationHasLead, NotificationHasClient])],
     providers: [LeadsService, LeadResolver, ClientsService, UsersService, NotificationsService, DateScalar, {
         provide: 'PUB_SUB',
         useValue: new PubSub(),

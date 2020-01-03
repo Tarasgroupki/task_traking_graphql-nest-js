@@ -11,9 +11,10 @@ import { SprintsService } from '../sprints/sprints.service';
 import {User} from '../users/user.entity';
 import {UserHasRole} from '../users/user_has_role.entity';
 import {UsersService} from '../users/users.service';
+import {Role} from '../settings/role.entity';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Task, Sprint, User, UserHasRole])],
+    imports: [TypeOrmModule.forFeature([Role, Task, Sprint, User, UserHasRole])],
     providers: [TasksService, TaskResolver, SprintsService, UsersService],
     controllers: [TasksController],
 })
