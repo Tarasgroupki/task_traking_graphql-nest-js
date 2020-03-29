@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Lead } from './lead.entity';
+import { Role } from '../settings/role.entity';
 import { LeadsService } from './leads.service';
 import { LeadResolver } from './lead.resolver';
 import { LeadsController } from './leads.controller';
@@ -19,7 +20,6 @@ import { NotificationHasClient } from '../notifications/notification_has_client.
 import { DateScalar } from '../date.scalar';
 import {NotificationResolver} from '../notifications/notification.resolver';
 import {PubSub} from 'graphql-subscriptions';
-import {Role} from '../settings/role.entity';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Role, Lead, Client, User, UserHasRole, Notification, NotificationHasLead, NotificationHasClient])],

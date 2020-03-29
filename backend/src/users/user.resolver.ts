@@ -1,5 +1,5 @@
-import { Query, Resolver, Args } from '@nestjs/graphql';
-import { UsersService } from './users.service';
+import {Args, Query, Resolver} from '@nestjs/graphql';
+import {UsersService} from './users.service';
 
 @Resolver('User')
 export class UserResolver {
@@ -9,15 +9,11 @@ export class UserResolver {
 
     @Query()
     async users() {
-        const users = await this.usersService.findAll();
-        console.log(users);
-        return users;
+        return await this.usersService.findAll();
     }
 
     @Query()
     async user(@Args('id') id: number) {
-        const user = await this.usersService.findOne({id});
-        console.log(user);
-        return user;
+        return await this.usersService.findOne({id});
     }
 }

@@ -1,4 +1,4 @@
-export class Client{
+export class Client {
     constructor(public name: string,
                 public email: string,
                 public primary_number: string,
@@ -8,10 +8,7 @@ export class Client{
                 public city: string,
                 public company_name: string,
                 public vat: string,
-              //  public industry: string,
                 public company_type: string,
                 public user: string,
-                public industry: number
-    )
-    { }
+                public industry: number) { }
 }

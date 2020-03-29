@@ -5,7 +5,7 @@ export type Client = {
     primary_number: string;
     secondary_number: string;
     address: string;
-    zipcode:string;
+    zipcode: string;
     city: string;
     company_name: string;
     vat: string;

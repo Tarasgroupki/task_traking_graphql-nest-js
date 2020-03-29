@@ -12,9 +12,9 @@ export class RolesService {
 
     constructor(@InjectRepository(Role) private readonly roleRepository: Repository<Role>,
                 @InjectRepository(Permission) private readonly permissionRepository: Repository<Permission>,
-                @InjectRepository(RoleHasPermission) private readonly roleHasPermissionRepository: Repository<RoleHasPermission>
+                @InjectRepository(RoleHasPermission) private readonly roleHasPermissionRepository: Repository<RoleHasPermission>,
     ) {
-        // super(repo);
+
     }
 
     async findAll(): Promise<Role[]> {
@@ -29,28 +29,23 @@ export class RolesService {
         return this.roleRepository.save(role);
     }
 
-    async createRoleHasPermissions(role_has_permissions: RoleHasPermission): Promise<RoleHasPermission> {
-        return this.roleHasPermissionRepository.save(role_has_permissions);
+    async createRoleHasPermissions(roleHasPermissions: RoleHasPermission): Promise<RoleHasPermission> {
+        return this.roleHasPermissionRepository.save(roleHasPermissions);
     }
-
-   // async createRoleHasPermission(role_has_permission: RoleHasPermission): Promise<RoleHasPermission> {
-     //   return this.roleHasPermissionRepository.save(role_has_permission);
-    //}
 
     async findOne(id): Promise<Role[]> {
         return await this.roleRepository.find({id});
     }
+
     async findOnePerm(id): Promise<Permission[]> {
         return await this.permissionRepository.find({id});
     }
+
     async findOneRoleHasPermById(id): Promise<RoleHasPermission[]> {
-        console.log('ID', id);
         return await this.roleHasPermissionRepository.find({role_id: id});
     }
+
     async findOneRoleByName(name): Promise<Role[]> {
-        return await this.roleRepository.find({name: name});
+        return await this.roleRepository.find({name});
     }
-    // async create(@Body() createCatDto: CreateCatDto) {
-    //     this.catsService.create(createCatDto);
-    //  }
 }

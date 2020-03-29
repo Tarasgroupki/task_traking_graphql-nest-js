@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
-// import * as WebSocket from 'ws';
-// import * as Rx from 'rxjs';
 import {Observable, Observer, Subject} from 'rxjs';
 import {Socket} from 'ngx-socket-io';
 import {BehaviorSubject} from 'rxjs';
-import {map} from 'rxjs/operators';
 
 @Injectable()
 export class WebsocketService {
@@ -12,7 +9,7 @@ export class WebsocketService {
 
   private subject: Subject<MessageEvent>;
   notifications = new BehaviorSubject<any>(null);
-  notifications_counter = new BehaviorSubject<number>(null);
+  notificationsCounter = new BehaviorSubject<number>(null);
 
 
   sendHello() {
@@ -25,19 +22,18 @@ export class WebsocketService {
 
   createdNotification() {
     this.socket.emit('getNotificationsByUserAndStatus', {userId: 1}, (event) => {
-      this.notifications_counter.next(event.length + 1);
+      this.notificationsCounter.next(event.length + 1);
     });
   }
 
   getNotificationCounter(userId: number) {
     this.socket.emit('getNotificationsByUserAndStatus', {userId}, (event) => {
       console.log(event.length);
-      this.notifications_counter.next(event.length);
+      this.notificationsCounter.next(event.length);
     });
   }
 
   getNotificationsByUser(userId: number) {
-    //this.getNotificationCounter(userId);
     return this.socket.emit('getNotificationsByUser', {userId}, (event) => {
       this.socket.emit('notificationHasLead', {userId}, (event1) => {
         for (let i = 0; i < event.length; i++) {
@@ -54,11 +50,6 @@ export class WebsocketService {
   }
 
   deleteNotification(id: number) {
-    /*this.socket.emit('getNotificationsByUserAndStatus', {userId}, (event) => {
-      if(event.length > 0) {
-        this.notifications_counter.next(event.length - 1);
-      }
-    });*/
     this.socket.emit('deleteNotifications', {id});
   }
 

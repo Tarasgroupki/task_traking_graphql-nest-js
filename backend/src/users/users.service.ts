@@ -1,12 +1,10 @@
-
-import { Injectable, Body } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
-import { User } from './user.entity';
-import { UserHasRole } from './user_has_role.entity';
-import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
+import {Injectable} from '@nestjs/common';
+import {InjectRepository} from '@nestjs/typeorm';
+import {User} from './user.entity';
 import {Role} from '../settings/role.entity';
+import {UserHasRole} from './user_has_role.entity';
+import {Repository} from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -20,21 +18,16 @@ export class UsersService {
     }
 
     async showByLead(userId: number) {
-       // console.log(userId);
-        const users = await this.userRepository.find({
+        return await this.userRepository.find({
             where: {id: userId},
-            relations: ['leads']
+            relations: ['leads'],
         });
-        return users.map(users => users);
     }
 
     async showByClient(clientId: number) {
-        const users = await this.userRepository.find({
+        return await this.userRepository.find({
             where: {id: clientId},
-            // relations: ['leads']
         });
-        // console.log(clients);
-        return users.map(users => users);
     }
 
     async getUsers(): Promise<User[]> {
@@ -48,7 +41,6 @@ export class UsersService {
     }
 
     async getUserByUsername(email: string): Promise<User> {
-        console.log((await this.userRepository.find({ email }))[0]);
         return (await this.userRepository.find({ email }))[0];
     }
 
@@ -71,16 +63,12 @@ export class UsersService {
     async findAll(): Promise<User[]> {
         return await this.userRepository.find();
     }
+
     async findOne(id): Promise<User[]> {
-        const user = await this.userRepository.find({id: id.id});
-        console.log(user);
-        return user;
+        return await this.userRepository.find({id: id.id});
     }
    // async findOneByEmail(email):
     async findUserRoles(id): Promise<UserHasRole[]> {
         return await this.userHasRoleRepository.find({user_id: id});
     }
-   // async create(@Body() createCatDto: CreateCatDto) {
-   //     this.catsService.create(createCatDto);
-  //  }
 }

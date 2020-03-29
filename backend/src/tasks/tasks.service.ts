@@ -9,25 +9,15 @@ import {User} from '../users/user.entity';
 @Injectable()
 export class TasksService {
     constructor(@InjectRepository(Task) private readonly taskRepository: Repository<Task>) {
-        //super(repo);
+
     }
 
     async findAll(): Promise<Task[]> {
         return await this.taskRepository.find({
-            relations: ['sprint', 'user']
+            relations: ['sprint', 'user'],
         });
     }
     async findOne(id): Promise<Task[]> {
         return await this.taskRepository.find({id: id.id});
     }
-
-   /* async findAll(): Promise<Client[]> {
-        return await this.clientRepository.find();
-    }
-    async findOne(id): Promise<Client[]> {
-        return await this.clientRepository.find(id);
-    }
-    async create(@Body() createCatDto: CreateCatDto) {
-        this.catsService.create(createCatDto);
-    }*/
 }

@@ -1,35 +1,22 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Apollo } from "apollo-angular";
-//import { ActivatedRoute } from "@angular/router";
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Lead } from './leads.model';
 import { Client } from './client.model';
 import { Users } from '../clients/users.model';
-
-import gql from 'graphql-tag';
-import {User, Query} from "../types";
-import {map} from "rxjs/operators";
-import {Observable} from "rxjs";
 import {Subscription} from 'rxjs';
-import {HttpHeaders} from "@angular/common/http";
 import {LeadsService} from './leads.service';
 import {ClientsService} from '../clients/clients.service';
-
-//import { Client, Query } from "../types";
 
 @Component({
     selector: 'app-leads-create',
     templateUrl: './leads-create.component.html',
     styleUrls: ['./leads.component.css']
 })
-export class LeadsCreateComponent implements OnInit, OnDestroy
-{
-    // log(x) { console.log(x); }
-    ///client: any = 1;
+export class LeadsCreateComponent implements OnInit, OnDestroy {
     lead: any = new Lead('', '', 1, '', '', (new Date()));
-    lead_object: Lead[] = [];
-    user: any = new Users('','');
-    client: any = new Client('','');
+    leadObject: Lead[] = [];
+    user: any = new Users('', '');
+    client: any = new Client('', '');
     users = [];
     clients = [];
     statuses = [
@@ -40,27 +27,26 @@ export class LeadsCreateComponent implements OnInit, OnDestroy
 
     public sub: Subscription;
 
-    constructor(private formBuilder: FormBuilder, private leadService: LeadsService, private clientService: ClientsService) {
+    constructor(private formBuilder: FormBuilder, private leadsService: LeadsService, private clientsService: ClientsService) {
 
     }
 
     addLead() {
-        this.lead_object.push(new Lead(this.lead.title, this.lead.description, this.lead.status, this.lead.client, this.lead.user_created, this.lead.contact_date));
-        console.log(this.lead_object);
-        this.leadService.createLead(this.lead_object[0]).subscribe(res => res);
+        this.leadObject.push(new Lead(this.lead.title, this.lead.description, this.lead.status, this.lead.client, this.lead.user_created, this.lead.contact_date));
+        this.leadsService.createLead(this.leadObject[0]).subscribe(resLead => resLead);
     }
     ngOnInit() {
-        this.sub = this.clientService.getUsers()
-            .subscribe(res => {
-                for (let i = 0; i < Object.keys(res).length; i++) {
-                    this.user = new Users(res[i].id.toString(), res[i].name);
+        this.sub = this.clientsService.getUsers()
+            .subscribe(resUsers => {
+                for (let i = 0; i < Object.keys(resUsers).length; i++) {
+                    this.user = new Users(resUsers[i].id.toString(), resUsers[i].name);
                     this.users.push(this.user);
                 }
             });
-        this.leadService.getClients()
-            .subscribe( res => {
-                for (let i = 0; i < Object.keys(res).length; i++) {
-                    this.client = new Client(res[i].id.toString(), res[i].name);
+        this.leadsService.getClients()
+            .subscribe( resClients => {
+                for (let i = 0; i < Object.keys(resClients).length; i++) {
+                    this.client = new Client(resClients[i].id.toString(), resClients[i].name);
                     this.clients.push(this.client);
                 }
             });

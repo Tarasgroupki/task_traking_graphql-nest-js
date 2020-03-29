@@ -1,48 +1,33 @@
-
-import { Injectable, Body } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
-import { Client } from './client.entity';
-import { Repository } from 'typeorm';
-import {Lead} from '../leads/lead.entity';
-import { ClientsDto } from '../clients/clients.dto';
+import {Injectable} from '@nestjs/common';
+import {InjectRepository} from '@nestjs/typeorm';
+import {Client} from './client.entity';
+import {Repository} from 'typeorm';
+import {ClientsDto} from './clients.dto';
 
 @Injectable()
 export class ClientsService {
     constructor(@InjectRepository(Client) private readonly clientRepository: Repository<Client>) {
-      // console.log(repo);
-         //super(repo);
+
     }
 
-   /* private toResponseObject(client: Client) {
-        return {
-            ...client,
-            lead: client.lead && client.lead.toResponseObject(),
-        };
-    }*/
-
     async showByLead(leadId: number) {
-        const clients = await this.clientRepository.find({
+        return await this.clientRepository.find({
             where: {id: leadId},
-           // relations: ['leads']
         });
-       // console.log(clients);
-        return clients.map(clients => clients);
     }
 
     async findAll(): Promise<Client[]> {
         return await this.clientRepository.find({
-            relations: ['leads', 'user']
+            relations: ['leads', 'user'],
         });
     }
     async findOne(id): Promise<Client[]> {
-        const id_val = id.id ? id.id: id;
-        return await this.clientRepository.find({id: id_val});
+        const idVal = id.id ? id.id : id;
+        return await this.clientRepository.find({id: idVal});
     }
 
     async createClient(data: ClientsDto): Promise<Client> {
         const client = new Client();
-        console.log(data);
         client.name = data.name;
         client.email = data.email;
         client.primary_number = data.primary_number;
@@ -61,18 +46,14 @@ export class ClientsService {
     }
 
     async delete(id: number) {
-        const client = await this.clientRepository.find({id: id});
+        const client = await this.clientRepository.find({id});
 
-        console.log(client[0]);
         await this.clientRepository.remove(client[0]);
         return true;
     }
 
-    async deleteAll(id_arr: any) {
-        //const client = await this.clientRepository.find({id: id});
-        console.log(id_arr);
-       // console.log(client[0]);
-        await this.clientRepository.delete(id_arr);
+    async deleteAll(idArr: any) {
+        await this.clientRepository.delete(idArr);
         return true;
     }
 
@@ -95,13 +76,4 @@ export class ClientsService {
 
         return client[0];
     }
-   /* async findAll(): Promise<Client[]> {
-        return await this.clientRepository.find();
-    }
-    async findOne(id): Promise<Client[]> {
-        return await this.clientRepository.find(id);
-    }
-    async create(@Body() createCatDto: CreateCatDto) {
-        this.catsService.create(createCatDto);
-    }*/
 }

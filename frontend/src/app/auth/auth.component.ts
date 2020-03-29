@@ -1,10 +1,7 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
-//import { AuthService } from './auth.service';
 import {Apollo} from 'apollo-angular';
 import {Auth} from './auth.model';
 import {Router} from '@angular/router';
-//import {User} from '../users/users.model';
-import gql from 'graphql-tag';
 import {AuthService} from './auth.service';
 
 
@@ -23,7 +20,7 @@ export class AuthComponent implements OnInit, OnDestroy {
 
     //  displayedColumns = ['id', 'name', 'email', 'password', 'address', 'work_number', 'personal_number', 'image_path'];
 
-    constructor(private _router: Router, private apollo: Apollo, private authService: AuthService) {
+    constructor(private router: Router, private apollo: Apollo, private authService: AuthService) {
         if (localStorage.getItem('errMessage')) {
             this.errMessage = 'Неправильний логін, або пароль!';
         }
@@ -44,26 +41,22 @@ export class AuthComponent implements OnInit, OnDestroy {
         console.log(this.authenticate[0]);
         this.authService.getAuth(this.authenticate).subscribe(res => {
             const data = res.data as any;
-            // if (res.data.hasOwnProperty(login)) {
 
             console.log('User', data.login.user);
             this.authService.currentUser.next(data.login.user);
             this.authService.permissions.next(data.login.permissions);
-            //this.authService.showFiller.next(false);
+            this.authService.token.next(data.login.token);
 
             localStorage.setItem('LoggedIn', JSON.stringify(data.login));
             localStorage.setItem('token', data.login.token);
             localStorage.removeItem('errMessage');
             this.LogginningData = JSON.parse(localStorage.getItem('LoggedIn'));
             console.log(JSON.parse(localStorage.getItem('LoggedIn')));
-            //this._router.navigate(['../clients']);
-            //  }
-             this._router.navigate(['clients']);
-        }, (err) => {
+            this.router.navigate(['clients']);
+        }, () => {
             localStorage.setItem('errMessage', 'true');
             this.authenticate.length = 0;
             this.errMessage = 'Неправильний логін, або пароль!';
-           // window.location.reload();
         });
     }
 

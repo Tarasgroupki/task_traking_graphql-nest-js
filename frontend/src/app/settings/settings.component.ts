@@ -1,6 +1,5 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SettingsService } from './settings.service';
-import {MatPaginator, MatTableDataSource} from '@angular/material';
 
 @Component({
     selector: 'app-settings',
@@ -12,12 +11,11 @@ export class SettingsComponent implements OnInit {
     roles: object;
     displayedColumns = ['id', 'name', '_v'];
 
-    constructor(private _roles: SettingsService) {}
+    constructor(private rolesService: SettingsService) {}
 
     ngOnInit() {
-        this._roles.getRoles().subscribe(res => {
-            this.roles = res;
-            console.log(res);
+        this.rolesService.getRoles().subscribe(resRoles => {
+            this.roles = resRoles;
         });
     }
 

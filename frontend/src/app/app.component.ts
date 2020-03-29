@@ -1,13 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
-//import { ApiService } from './api.service';
-//import {ClientsInterface} from './clients-interface';
 import { Router } from '@angular/router';
 import { AuthService } from './auth/auth.service';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {NotificationsService} from './notifications/notifications.service';
 import {ChatService} from './chat.service';
 import {WebsocketService} from './websocket.service';
-import {BehaviorSubject} from 'rxjs';
 
 export interface DialogData {
   notification: any;
@@ -17,34 +14,33 @@ export interface DialogData {
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  // providers: [ApiService]
 })
 export class AppComponent implements OnInit {
   title = 'app';
   public LogginningData = JSON.parse(localStorage.getItem('LoggedIn'));
   route: string;
-  notif_counter: number;
+  notifCounter: number;
   notifications: any;
   notifHasLead: any;
   showFiller = false;
   parameter = false;
 
-  constructor(public dialog: MatDialog, private _router: Router, private userService: AuthService, private notificationService: NotificationsService, private websocketService: WebsocketService, private chatService: ChatService) {
+  constructor(public dialog: MatDialog, private router: Router, private userService: AuthService, private notificationService: NotificationsService, private websocketService: WebsocketService, private chatService: ChatService) {
     console.log(this.LogginningData);
    // this.showFiller = false;
-    _router.events.subscribe((url: any) => {
+    router.events.subscribe((url: any) => {
       if (url.url !== undefined) {
         this.route = url.url;
       }
       if (this.route === '/') {
-        this._router.navigate(['clients']);
+        this.router.navigate(['clients']);
       }
     });
   }
   ngOnInit() {
     setInterval(() => this.getNotificationCounter(this.LogginningData ? +this.LogginningData.user.id : this.userService.currentUser.getValue().id), 30000);
     this.getNotificationCounter(this.LogginningData ? +this.LogginningData.user.id : this.userService.currentUser.getValue().id);
-    /*this.notificationService.getNotificationsByUser(this.LogginningData ? parseInt(this.LogginningData.user.id) : this.userService.currentUser.getValue().id).subscribe(res => {
+    /* this.notificationService.getNotificationsByUser(this.LogginningData ? parseInt(this.LogginningData.user.id) : this.userService.currentUser.getValue().id).subscribe(res => {
       console.log(res);
       if (res) {
         this.notif_counter = res.length;
@@ -53,7 +49,7 @@ export class AppComponent implements OnInit {
         this.notif_counter = 0;
       }
     });*/
-    //this.websocketService.createdNotification();
+    // this.websocketService.createdNotification();
   }
 
   getNotificationCounter(userId: number) {
@@ -77,24 +73,13 @@ export class AppComponent implements OnInit {
     this.showFiller = true;
   }
   changePannel() {
-    //console.log(param);
-    if (this.showFiller === false) {
-      this.showFiller = true;
-    }
-    else {
-      this.showFiller = false;
-    }
+    this.showFiller = this.showFiller === false;
   }
   closePannel() {
     this.showFiller = false;
   }
   openByClick() {
-    if (this.parameter === false) {
-      this.parameter = true;
-    }
-    else {
-      this.parameter = false;
-    }
+    this.parameter = this.parameter === false;
   }
 
   removeAuth() {
@@ -102,17 +87,16 @@ export class AppComponent implements OnInit {
     this.parameter = false;
     localStorage.removeItem('token');
     localStorage.removeItem('LoggedIn');
-    this._router.navigate(['logout']);
+    this.router.navigate(['logout']);
   }
 }
 
 @Component({
-  selector: 'dialog-data-example-dialog',
+  selector: 'app-dialog-data-example-dialog',
   templateUrl: './dialog-data-example-dialog.html',
 })
 export class DialogDataComponent {
   public show = true;
-  //show = new BehaviorSubject<boolean>(true);
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private notificationService: NotificationsService, private websocketService: WebsocketService) {}
 
   reload(notification: any, notifications: any) {

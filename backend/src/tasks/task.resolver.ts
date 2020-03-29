@@ -8,7 +8,7 @@ export class TaskResolver {
     constructor(
         private readonly tasksService: TasksService,
         private readonly sprintsService: SprintsService,
-        private readonly usersService: UsersService
+        private readonly usersService: UsersService,
     ) {}
 
     @Query()

@@ -1,17 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Apollo } from "apollo-angular";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
-//import 'rxjs/add/operator/catch';
-//import 'rxjs/add/observable/throw';
+import { Apollo } from 'apollo-angular';
+import { map } from 'rxjs/operators';
 import {Query} from '../types';
 import gql from 'graphql-tag';
 
 @Injectable()
 export class UsersService {
-
-    //const API_URL = environment.apiUrl;
 
     constructor(private apollo: Apollo) {
     }
@@ -20,9 +14,6 @@ export class UsersService {
         return this.apollo.watchQuery<Query>({
             query: gql`
                 query users { users{id, name, email, address, work_number, personal_number}}`,
-            context: {
-                headers: new HttpHeaders().set("Authorization", "Bearer " +  localStorage.getItem('token')),
-            }
         }).valueChanges
         .pipe(
             map(result => result.data.users)
@@ -33,11 +24,8 @@ export class UsersService {
         return this.apollo.watchQuery<Query>({
             query: gql`
                 query user($id: ID!) { user(id: $id){id, name, email, address, work_number, personal_number}}`,
-            context: {
-                headers: new HttpHeaders().set("Authorization", "Bearer " +  localStorage.getItem('token')),
-            },
             variables: {
-                id: id
+                id
             }
         }).valueChanges
         .pipe(

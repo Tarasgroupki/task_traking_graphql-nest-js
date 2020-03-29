@@ -11,9 +11,8 @@ import {Role} from './role.entity';
 export class PermissionsService {
 
     constructor(@InjectRepository(Permission) private readonly permissionRepository: Repository<Permission>,
-                //  private readonly roleHasPermissionRepository: Repository<RoleHasPermission>
     ) {
-        // super(repo);
+
     }
 
     async findAll(): Promise<Permission[]> {
@@ -24,12 +23,8 @@ export class PermissionsService {
         return this.permissionRepository.save(permission);
     }
 
-    // async createRoleHasPermission(role_has_permission: RoleHasPermission): Promise<RoleHasPermission> {
-    //   return this.roleHasPermissionRepository.save(role_has_permission);
-    //}
-
     async findOne(id): Promise<Permission[]> {
-        return await this.permissionRepository.find({id: id});
+        return await this.permissionRepository.find({id});
     }
 
     async findPermsOfRole(array): Promise<Permission[]> {
@@ -37,7 +32,4 @@ export class PermissionsService {
             .where('id IN (:arr)', {arr: array })
             .getMany();
     }
-    // async create(@Body() createCatDto: CreateCatDto) {
-    //     this.catsService.create(createCatDto);
-    //  }
 }

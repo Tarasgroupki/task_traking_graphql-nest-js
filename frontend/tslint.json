@@ -1,8 +1,17 @@
 {
   "extends": "tslint:recommended",
+  "linterOptions": {
+    "exclude": [
+      "src/app/**/*.model.ts"
+    ]
+  },
   "rules": {
+    "no-string-literal": false,
+    "jsdoc-format": false,
     "array-type": false,
     "arrow-parens": false,
+    "interface-over-type-literal": false,
+    "semicolon":false,
     "deprecation": {
       "severity": "warning"
     },
@@ -29,7 +38,7 @@
     "max-classes-per-file": false,
     "max-line-length": [
       true,
-      140
+      500
     ],
     "member-access": false,
     "member-ordering": [

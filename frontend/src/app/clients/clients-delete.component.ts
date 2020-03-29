@@ -1,11 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Apollo } from "apollo-angular";
-import { ActivatedRoute,RouterModule, Router } from "@angular/router";
-
-import gql from 'graphql-tag';
-
-import { Client, Query } from "../types";
-import {HttpHeaders} from "@angular/common/http";
+import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 import {ClientsService} from './clients.service';
 
 @Component({
@@ -18,20 +12,9 @@ export class ClientsDeleteComponent {
     client: object;
 
     constructor(private route: ActivatedRoute, private router: Router, private clientService: ClientsService) {
-        this.route.params.subscribe( params => this.clientService.deleteClient(parseInt(params['id'])).subscribe(() => {
+        this.route.params.subscribe( params => this.clientService.deleteClient(+params['id']).subscribe(() => {
             this.router.navigate(['clients']);
         }));
     }
-
-  /*  ngOnInit() {
-        this._client.showClient().subscribe(res => {
-            this.client = res;
-          //  console.log(res);
-        });*/
-    /*ngOnInit() {
-        this._clients.getClients().subscribe(res => {
-            this.clients = res;
-        });
-    }*/
 
 }

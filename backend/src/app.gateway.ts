@@ -25,25 +25,26 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
 
   @SubscribeMessage('MsgToServer')
   handleMessage(client: Socket, text: string) {
-    console.log({event: 'msgToClient', text});
+   // console.log({event: 'msgToClient', text});
   }
 
   @SubscribeMessage('hello')
   handleMessage1(client: Socket, data: any) {
-    console.log( { event: 'hello', data} );
+  // console.log( { event: 'hello', data} );
   }
 
   @SubscribeMessage('notificationHasLead')
  async notificationHasLead(client: Socket, id: number) {
     const notification = await this.notificationsService.findAllByUser(id);
-    let ids = [];
-    for (let i = 0; i < notification.length; i++) {
-      ids.push(notification[i].id);
+    const ids = [];
+   // for (let i = 0; i < notification.length; i++) {
+    for (const value of notification) {
+      ids.push(value.id);
     }
     const lead = await this.notificationsService.findNotificationHasLead(ids);
     ids.length = 0;
-    for (let i = 0; i < lead.length; i++) {
-      ids.push({id: lead[i].lead_id});
+    for (const value of lead) {
+      ids.push({id: value.lead_id});
     }
     return ids;
   }
@@ -71,7 +72,7 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
 
   @SubscribeMessage('deleteNotifications')
    async deleteNotifications(client: Socket, id: number) {
-    console.log(id);
+   // console.log(id);
     return await this.notificationsService.delete(id);
   }
 

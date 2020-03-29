@@ -4,7 +4,7 @@ export class Lead {
                 public status: number,
                 public client: string,
                 public user: string,
-                public contact_date: any
+                public contact_date: any,
     )
     { }
 }

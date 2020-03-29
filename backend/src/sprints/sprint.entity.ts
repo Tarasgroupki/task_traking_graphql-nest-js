@@ -1,4 +1,3 @@
-
 import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany} from 'typeorm';
 import { User } from '../users/user.entity';
 import { Lead } from '../leads/lead.entity';

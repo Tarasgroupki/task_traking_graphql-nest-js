@@ -22,7 +22,6 @@ export class UsersController {
     @Get(':id')
     @SetMetadata('permissions', ['create clients'])
     findOne(@Param() params): Promise<User[]> {
-        console.log(params.id);
         return this.userService.findOne(params.id);
     }
 }

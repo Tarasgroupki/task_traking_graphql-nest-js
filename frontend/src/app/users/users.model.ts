@@ -5,7 +5,5 @@ export class User {
                 public address: string,
                 public work_number: string,
                 public personal_number: string,
-                public image_path: string
-    )
-    { }
+                public image_path: string) { }
 }

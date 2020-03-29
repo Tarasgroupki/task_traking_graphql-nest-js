@@ -13,26 +13,23 @@ export class TasksComponent implements OnInit {
     displayedColumns = ['id', 'title', 'description', 'status', 'sprint_assigned', 'user_created', 'deadline'];
     dataSource: any;
 
-    constructor(private _tasks: TasksService) {}
+    constructor(private tasksService: TasksService) {}
 
     @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
     ngOnInit() {
-        this._tasks.getTasks().subscribe(res => {
-            this.tasks = res;
-            for(let i in this.tasks){
-                if(this.tasks[i].status == 2) {
+        this.tasksService.getTasks().subscribe(resTasks => {
+            this.tasks = resTasks;
+            for (const i of Object.keys(this.tasks)) {
+                if (this.tasks[i].status === 2) {
                     this.tasks[i].status = 'Виконано';
-                }
-                else if(this.tasks[i].status == 1) {
+                } else if (this.tasks[i].status === 1) {
                     this.tasks[i].status = 'Виконується';
-                }
-                else {
+                } else {
                     this.tasks[i].status = 'Не виконується';
                 }
             }
             this.dataSource = new MatTableDataSource(this.tasks);
-            console.log(res);
             this.dataSource.paginator = this.paginator;
         });
     }

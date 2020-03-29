@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-// import { AppController } from './app.controller';
-//import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClientsModule } from './clients/clients.module';
 import { LeadsModule } from './leads/leads.module';
@@ -13,27 +11,19 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { PermissionsModule } from './settings/permissions.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import * as GraphQLJSON from 'graphql-type-json';
-import { PubSub } from 'graphql-subscriptions';
-/*import { Client } from './clients/client.entity';
-
-
-
-
-import { ClientsService } from './clients/clients.service';
-import { ClientsController } from './clients/clients.controller';*/
 import { AppGateway } from './app.gateway';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: 'db',
       port: 3306,
       username: 'root',
-      password: '',
-      database: 'task_traking_nest',
+      password: '123456',
+      database: 'task_treking_nest',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
+      synchronize: false,
     }),
     GraphQLModule.forRoot({
      // debug: false,
@@ -42,7 +32,7 @@ import { AppGateway } from './app.gateway';
       installSubscriptionHandlers: true,
       resolvers: { JSON: GraphQLJSON },
       include: [ClientsModule, LeadsModule, SprintsModule, TasksModule, UsersModule, RolesModule, AuthModule, NotificationsModule],
-      context: ({ req }) => ({ req })
+      context: ({ req }) => ({ req }),
     }),
     ClientsModule,
     LeadsModule,

@@ -9,7 +9,7 @@ export interface DialogData {
  * @title Injecting data when opening a dialog
  */
 @Component({
-  selector: 'notifications-app',
+  selector: 'app-notifications',
   templateUrl: '../dialog-data-example.html',
   styleUrls: ['../dialog-data-example.css'],
 })
@@ -17,7 +17,7 @@ export class NotificationsComponent {
   constructor(public dialog: MatDialog) {}
 
   openDialog() {
-    this.dialog.open(DialogDataExampleDialog, {
+    this.dialog.open(DialogDataExampleDialogComponent, {
       data: {
         animal: 'panda'
       }
@@ -26,10 +26,10 @@ export class NotificationsComponent {
 }
 
 @Component({
-  selector: 'dialog-data-example-dialog',
+  selector: 'app-dialog-data-example-dialog',
   templateUrl: '../dialog-data-example-dialog.html',
 })
-export class DialogDataExampleDialog {
+export class DialogDataExampleDialogComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 }
 

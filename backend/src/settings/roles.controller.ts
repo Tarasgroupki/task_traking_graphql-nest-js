@@ -21,13 +21,11 @@ export class RolesController {
 
     @Get(':id')
     findOne(@Param() params): Promise<Role[]> {
-        console.log(params.id);
         return this.roleService.findOne(params.id);
     }
 
     @Get('/role_has_permission/:id')
     findOneRoleHasPermById(@Param() params): Promise<RoleHasPermission[]> {
-        console.log(params.id);
         return this.roleService.findOneRoleHasPermById(params.id);
     }
 
@@ -44,7 +42,7 @@ export class RolesController {
 
     @Post('role_has_permissions')
     @Header('Cache-Control', 'none')
-    create_roleHasPerm(role_has_permissions: RoleHasPermission): Promise<RoleHasPermission> {
-        return this.roleService.createRoleHasPermissions(role_has_permissions);
+    create_roleHasPerm(roleHasPermissions: RoleHasPermission): Promise<RoleHasPermission> {
+        return this.roleService.createRoleHasPermissions(roleHasPermissions);
     }
 }

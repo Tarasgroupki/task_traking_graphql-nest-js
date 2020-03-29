@@ -1,5 +1,4 @@
-import { Field, ObjectType} from 'type-graphql';
-//import {ClientsRO} from '../clients/clients.dto';
+import { Field, ObjectType } from 'type-graphql';
 
 @ObjectType()
 export class NotificationHasClientDto {

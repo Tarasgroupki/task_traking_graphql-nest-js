@@ -1,4 +1,3 @@
-
 import {Entity, PrimaryGeneratedColumn, Column, OneToMany, BeforeInsert} from 'typeorm';
 import { Client } from '../clients/client.entity';
 import { Lead } from '../leads/lead.entity';

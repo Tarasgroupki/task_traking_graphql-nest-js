@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Sprint } from './sprint.entity';
+import { Role } from '../settings/role.entity';
 import { SprintsService } from './sprints.service';
 import { SprintResolver } from './sprint.resolver';
 import { SprintsController } from './sprints.controller';
@@ -12,7 +13,6 @@ import {UsersService} from '../users/users.service';
 import {LeadsService} from '../leads/leads.service';
 import {User} from '../users/user.entity';
 import {UserHasRole} from '../users/user_has_role.entity';
-import {Role} from '../settings/role.entity';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Role, Sprint, Lead, User, UserHasRole])],

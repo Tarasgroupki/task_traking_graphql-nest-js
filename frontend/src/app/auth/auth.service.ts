@@ -1,21 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-//import 'rxjs/add/operator/map';
-//import {map} from "rxjs/operators";
 import {BehaviorSubject} from 'rxjs';
 import {User} from '../types';
 import gql from 'graphql-tag';
 import {Apollo} from 'apollo-angular';
-//import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable()
 export class AuthService {
 
-    //const API_URL = environment.apiUrl;
-
   currentUser = new BehaviorSubject<User|null>(null);
   permissions = new BehaviorSubject(null);
-  //showFiller = new BehaviorSubject<boolean | null>(null);
+  token = new BehaviorSubject<null>(null);
 
   constructor(private apollo: Apollo) { }
 
@@ -33,16 +28,9 @@ export class AuthService {
     public isAuthenticated(): boolean {
          const token = localStorage.getItem('token');
 
-         if (token) {
-           return true;
-         }
+         return !!token;
 
-         return false;
+
     }
-  /*  logoutAuth(id: number) {
-       return this._http.get('http://task-treking/public/api/users/logout/'+id+'').pipe(
-           map(result => result)
-       );
-    }*/
 
 }

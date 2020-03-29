@@ -1,6 +1,3 @@
 export class Permissions {
-    constructor(
-        public name: object
-    )
-    { }
+    constructor(public name: object) { }
 }

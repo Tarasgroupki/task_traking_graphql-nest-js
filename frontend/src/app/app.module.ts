@@ -10,13 +10,12 @@ import { MaterialModule } from './material.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import {AppComponent, DialogDataComponent} from './app.component';
-import { InMemoryCache } from "apollo-cache-inmemory";
-import { AuthComponent } from "./auth/auth.component"
-import { AuthLogoutsComponent } from "./auth/auth-logout.component";
+import { AuthComponent } from './auth/auth.component';
+import { AuthLogoutsComponent } from './auth/auth-logout.component';
 import { ClientsComponent } from './clients/clients.component';
-import { ClientsViewComponent } from "./clients/clients-view.component";
+import { ClientsViewComponent } from './clients/clients-view.component';
 import { ClientsCreateComponent } from './clients/clients-create.component';
-import { ClientsUpdateComponent } from "./clients/clients-update.component";
+import { ClientsUpdateComponent } from './clients/clients-update.component';
 import { ClientsDeleteComponent } from './clients/clients-delete.component';
 import { LeadsComponent } from './leads/leads.component';
 import { LeadsViewComponent } from './leads/leads-view.component';
@@ -47,7 +46,7 @@ import {WebsocketService} from './websocket.service';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import {UsersProfileComponent} from './users/users-profile.component';
 
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {}};
+const config: SocketIoConfig = { url: 'http://localhost:8000', options: {}};
 
 
 @NgModule({
@@ -197,13 +196,5 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {}};
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(
-     // apollo: Apollo,
-     // httpLink: HttpLink
-  ) {
-    /* apollo.create({
-       link: httpLink.create({uri: 'http://localhost:3000/graphql'}),
-       cache: new InMemoryCache()
-     });*/
-  }
+  constructor() {}
 }

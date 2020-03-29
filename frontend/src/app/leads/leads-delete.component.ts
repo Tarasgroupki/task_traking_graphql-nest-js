@@ -1,11 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Apollo } from "apollo-angular";
-import { ActivatedRoute,RouterModule, Router } from "@angular/router";
-
-import gql from 'graphql-tag';
-
-import { Client, Query } from "../types";
-import {HttpHeaders} from "@angular/common/http";
+import { ActivatedRoute, RouterModule, Router } from '@angular/router';
 import {LeadsService} from './leads.service';
 
 @Component({
@@ -17,8 +11,8 @@ export class LeadsDeleteComponent {
     title = 'app';
     lead: object;
 
-    constructor(private route: ActivatedRoute, private router: Router, private leadService: LeadsService) {
-        this.route.params.subscribe( params => this.leadService.deleteLead(parseInt(params['id'])).subscribe(() => {
+    constructor(private route: ActivatedRoute, private router: Router, private leadsService: LeadsService) {
+        this.route.params.subscribe( params => this.leadsService.deleteLead(+params['id']).subscribe(() => {
             this.router.navigate(['leads']);
         }));
     }

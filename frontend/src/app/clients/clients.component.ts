@@ -1,17 +1,10 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ClientsService } from './clients.service';
-import { Apollo } from "apollo-angular";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
 import {Subscription} from 'rxjs';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
-
-import gql from 'graphql-tag';
-
-import { Client, Query } from "../types";
-import { HttpHeaders } from "@angular/common/http";
+import { Client, Query } from '../types';
 import {WebsocketService} from '../websocket.service';
 
 export interface Client {
@@ -34,7 +27,6 @@ export interface Client {
 export class ClientsComponent implements OnInit, OnDestroy {
   clients: any;
   displayedColumns = ['select', 'id', 'name', 'email', 'primary_number', 'secondary_number', 'address', 'zipcode', 'industry'];
-  //displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource: MatTableDataSource<Client>;
   selection = new SelectionModel<Client>(true, []);
   visibleDel = false;
@@ -43,16 +35,16 @@ export class ClientsComponent implements OnInit, OnDestroy {
 
   constructor(
       private clientService: ClientsService,
-      private socketService: WebsocketService) { }
+      private socketService: WebsocketService,
+      ) { }
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   ngOnInit() {
 
-  this.sub = this.clientService.getClients().subscribe(res => {
-      this.clients = res;
-      this.dataSource = new MatTableDataSource(res);
-      console.log(res);
+  this.sub = this.clientService.getClients().subscribe(resClients => {
+      this.clients = resClients;
+      this.dataSource = new MatTableDataSource(resClients);
       this.dataSource.paginator = this.paginator;
     });
   }
@@ -63,20 +55,18 @@ export class ClientsComponent implements OnInit, OnDestroy {
 
   isSelected() {
     const numSelected = this.selection.selected.length;
- // console.log(numSelected);
     if (numSelected > 0) {
        this.visibleDel = true;
        return this.visibleDel;
-    }
-    else {
-    this.visibleDel = false;
-      return this.visibleDel;
+    } else {
+       this.visibleDel = false;
+       return this.visibleDel;
     }
   }
 
   isAllSelected() {
 
-    if(!this.dataSource) {
+    if (!this.dataSource) {
       return false;
     }
    // const data = this.dataSource.data as any;
@@ -87,15 +77,15 @@ export class ClientsComponent implements OnInit, OnDestroy {
 
   DeleteSelected() {
     const numSelected = this.selection.selected;
-    let id_arr = [];
+    const idArr = [];
    // const item_user = item.user as any;
     if (numSelected) {
       numSelected.forEach((item) => {
-        id_arr.push(+item.id);
+        idArr.push(+item.id);
        // item.user = parseInt(item.user[0].id);
       });
     // console.log(id_arr);
-      this.clientService.deleteClients(id_arr);
+      this.clientService.deleteClients(idArr);
     }
    // console.log(numSelected);
     return numSelected;

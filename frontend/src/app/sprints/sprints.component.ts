@@ -13,26 +13,23 @@ export class SprintsComponent implements OnInit {
     displayedColumns = ['id', 'title', 'description', 'status', 'lead_assigned', 'user_created', 'deadline'];
     dataSource: any;
 
-    constructor(private _sprints: SprintsService) {}
+    constructor(private sprintsService: SprintsService) {}
 
     @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
     ngOnInit() {
-        this._sprints.getSprints().subscribe(res => {
-            this.sprints = res;
-            for(let i in this.sprints){
-                if(this.sprints[i].status == 2) {
+        this.sprintsService.getSprints().subscribe(resSprints => {
+            this.sprints = resSprints;
+            for (const i of Object.keys(this.sprints)) {
+                if (this.sprints[i].status === 2) {
                     this.sprints[i].status = 'Виконано';
-                }
-                else if(this.sprints[i].status == 1) {
+                } else if (this.sprints[i].status === 1) {
                     this.sprints[i].status = 'Виконується';
-                }
-                else {
+                } else {
                     this.sprints[i].status = 'Не виконується';
                 }
             }
             this.dataSource = new MatTableDataSource(this.sprints);
-            console.log(res);
             this.dataSource.paginator = this.paginator;
         });
     }

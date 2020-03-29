@@ -1,17 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Apollo } from "apollo-angular";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
-//import 'rxjs/add/operator/catch';
-//import 'rxjs/add/observable/throw';
+import { Apollo } from 'apollo-angular';
+import { map } from 'rxjs/operators';
 import {Query} from '../types';
 import gql from 'graphql-tag';
 
 @Injectable()
 export class ClientsService {
-
-    //const API_URL = environment.apiUrl;
 
     constructor(private apollo: Apollo) {
     }
@@ -41,9 +36,9 @@ export class ClientsService {
                     company_name
                     industry
                     user{id} }}`,
-            context: {
-                headers: new HttpHeaders().set("Authorization", "Bearer " +  localStorage.getItem('token')),
-            }
+         context: {
+           headers: new HttpHeaders().set('Authorization', 'Bearer ' +  localStorage.getItem('token')),
+         }
         }).valueChanges
         .pipe(
             map(result => result.data.clients)
@@ -65,11 +60,11 @@ export class ClientsService {
                     company_name,
                     industry,
                     user{id}}}`,
-            context: {
-                headers: new HttpHeaders().set("Authorization", "Bearer " +  localStorage.getItem('token')),
-            },
+         context: {
+           headers: new HttpHeaders().set('Authorization', 'Bearer ' +  localStorage.getItem('token')),
+         },
             variables: {
-                id: id
+                id
             }
         }).valueChanges
         .pipe(
@@ -96,9 +91,6 @@ export class ClientsService {
                     user{id}
                 }
                 }`,
-            context: {
-                headers: new HttpHeaders().set("Authorization", "Bearer " +  localStorage.getItem('token')),
-            },
             variables: {
                 name: client.name,
                 email: client.email,
@@ -135,11 +127,8 @@ export class ClientsService {
                 user{id}
             }
             }`,
-            context: {
-                headers: new HttpHeaders().set("Authorization", "Bearer " +  localStorage.getItem('token')),
-            },
             variables: {
-                id: id,
+                id,
                 name: client.name,
                 email: client.email,
                 primary_number: client.primary_number,
@@ -163,25 +152,19 @@ export class ClientsService {
                     deleteClient(id: $id)
                 }
             `,
-            context: {
-                headers: new HttpHeaders().set("Authorization", "Bearer " +  localStorage.getItem('token')),
-            },
             variables: {
-                id: id
+                id
             }
         });
     }
 
-    deleteClients(id_arr: any) {
+    deleteClients(idArr: any) {
         return this.apollo.mutate( {
            mutation: gql`
-               mutation deleteClients($id_arr: [Int]){deleteClients(arr_id: $id_arr)}
+               mutation deleteClients($idArr: [Int]){deleteClients(arr_id: $idArr)}
            `,
-            context: {
-                headers: new HttpHeaders().set("Authorization", "Bearer " +  localStorage.getItem('token')),
-            },
             variables: {
-                id_arr: id_arr
+                idArr
             }
         });
     }

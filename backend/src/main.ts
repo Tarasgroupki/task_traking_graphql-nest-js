@@ -5,9 +5,9 @@ import { join } from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  //const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  //app.useStaticAssets(join(__dirname, '..', 'static'));
+  // const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  // app.useStaticAssets(join(__dirname, '..', 'static'));
   app.enableCors();
-  await app.listen(3000);
+  await app.listen(2700);
 }
 bootstrap();

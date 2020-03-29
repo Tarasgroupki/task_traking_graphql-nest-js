@@ -18,45 +18,27 @@ export class NotificationsService {
     constructor(@InjectRepository(Notification) private readonly notificationRepository: Repository<Notification>,
                 @InjectRepository(NotificationHasClient) private readonly notificationHasClientRepository: Repository<NotificationHasClient>,
                 @InjectRepository(NotificationHasLead) private readonly notificationHasLeadRepository: Repository<NotificationHasLead>) {
-
-        // super(repo);
     }
-
-    /* private leadToResponceObject(lead: Lead): LeadsRO {
-         const responceObject: any = {
-             ...lead,
-             client: lead.client,
-         }
-     }*/
-
-  /*
-async findOne(id): Promise<Notification[]> {
-        const notification = await this.notificationRepository.find({id: id.id});
-        // console.log(lead);
-        return notification;
-    }
-    */
 
     async findAll(): Promise<Notification[]> {
         return await this.notificationRepository.find({
-            relations: ['user']
+            relations: ['user'],
         });
     }
 
     async findAllByUser(userId: any): Promise<Notification[]> {
-        const id_val = userId.userId ? userId.userId : userId;
+        const idVal = userId.userId ? userId.userId : userId;
 
         return await this.notificationRepository.find({
-            where: [{user_id: id_val}],
-            // relations: ['user']
+            where: [{user_id: idVal}],
         });
     }
 
     async findAllByUserAndStatus(userId: any): Promise<Notification[]> {
-        const id_val = userId.userId ? userId.userId : userId;
+        const idVal = userId.userId ? userId.userId : userId;
 
         return await this.notificationRepository.find({
-            where: [{user_id: id_val, status: 0}],
+            where: [{user_id: idVal, status: 0}],
             // relations: ['user']
         });
     }
@@ -64,10 +46,11 @@ async findOne(id): Promise<Notification[]> {
     async UpdateStatus(userId: number) {
         const notification = await this.notificationRepository.find({user_id: userId});
 
-        for (let i = 0; i < notification.length; i++) {
-            notification[i].status = 1;
+        // for (let i = 0; i < notification.length; i++) {
+        for (const value of notification) {
+            value.status = 1;
 
-            await this.notificationRepository.save(notification[i]);
+            await this.notificationRepository.save(value);
         }
 
         return notification[0];
@@ -86,19 +69,17 @@ async findOne(id): Promise<Notification[]> {
     }
 
     async findAllNotHasLead(id: number): Promise<NotificationHasLead[]> {
-        const notif_arr = await this.notificationHasLeadRepository.createQueryBuilder()
+        const notifArr = await this.notificationHasLeadRepository.createQueryBuilder()
             .where('notification_id IN (:arr)', {arr: [6, 7, 8] })
             .getMany();
-        console.log(notif_arr);
+        console.log(notifArr);
         return await this.notificationHasLeadRepository.find({
-            where: [{notification_id: id}]
+            where: [{notification_id: id}],
         });
     }
 
     async createNotification(data: any): Promise<Notification> {
         const notification = new Notification();
-       // const notification_has_client = new Notifica
-        console.log(data);
         notification.name = data.name;
         notification.description = data.description;
         notification.status = data.status;
@@ -110,34 +91,30 @@ async findOne(id): Promise<Notification[]> {
     }
 
     async createNotificationHasClient(data: NotificationHasClientDto): Promise<NotificationHasClient> {
-        const notification_has_client = new NotificationHasClient();
+        const notificationHasClient = new NotificationHasClient();
 
-        notification_has_client.notification_id = data.notification;
-        notification_has_client.client_id = data.client;
+        notificationHasClient.notification_id = data.notification;
+        notificationHasClient.client_id = data.client;
 
-        await this.notificationHasClientRepository.save(notification_has_client);
+        await this.notificationHasClientRepository.save(notificationHasClient);
 
-        return notification_has_client;
+        return notificationHasClient;
     }
 
     async createNotificationHasLead(data: any): Promise<NotificationHasLead> {
-        const notification_has_lead = new NotificationHasLead();
+        const notificationHasLead = new NotificationHasLead();
 
-        notification_has_lead.notification_id = data.notification;
-        notification_has_lead.lead_id = data.lead;
+        notificationHasLead.notification_id = data.notification;
+        notificationHasLead.lead_id = data.lead;
 
-        await this.notificationHasLeadRepository.save(notification_has_lead);
+        await this.notificationHasLeadRepository.save(notificationHasLead);
 
-        return notification_has_lead;
+        return notificationHasLead;
     }
 
     async delete(id: any) {
-        console.log(id);
         const notificationHasLead = await this.notificationHasLeadRepository.find({notification_id: id.id});
         const notification = await this.notificationRepository.find({id: id.id});
-        //const
-       // console.log(notification[0]);
-       // console.log(notificationHasLead[0]);
         await this.notificationHasLeadRepository.remove(notificationHasLead[0]);
         await this.notificationRepository.remove(notification[0]);
         return true;

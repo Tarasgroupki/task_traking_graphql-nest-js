@@ -8,7 +8,7 @@ export class SprintResolver {
     constructor(
         private readonly sprintsService: SprintsService,
         private readonly leadsService: LeadsService,
-        private readonly usersService: UsersService
+        private readonly usersService: UsersService,
     ) {}
 
     @Query()

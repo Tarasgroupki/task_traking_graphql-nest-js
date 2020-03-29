@@ -1,4 +1,3 @@
-
 import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany} from 'typeorm';
 import { User } from '../users/user.entity';
 import { Client } from '../clients/client.entity';
@@ -29,8 +28,8 @@ export class Lead {
     @JoinColumn({name: 'user_assigned_id'})
     user: User;
 
-   // @ManyToOne(type => User, user => user.leads)
-   // @JoinColumn({name: 'user_assigned_id', referencedColumnName: 'id'})
+    // @ManyToOne(type => User, user => user.leads)
+    // @JoinColumn({name: 'user_assigned_id', referencedColumnName: 'id'})
     // user: User;
 
     @Column()

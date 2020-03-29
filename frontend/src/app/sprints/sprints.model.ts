@@ -4,9 +4,5 @@ export class Sprint {
                 public status: number,
                 public lead: string,
                 public user: string,
-             //   public client_id: number,
-               // public invoice_id: number,
-                public deadline: string
-    )
-    { }
+                public deadline: string) { }
 }

@@ -1,5 +1,4 @@
 import { Field, ObjectType} from 'type-graphql';
-import {LeadsRO} from '../leads/leads.dto';
 
 @ObjectType()
 export class ClientsDto {

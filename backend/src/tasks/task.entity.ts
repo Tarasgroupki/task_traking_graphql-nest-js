@@ -1,4 +1,3 @@
-
 import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn} from 'typeorm';
 import { User } from '../users/user.entity';
 import { Sprint } from '../sprints/sprint.entity';
@@ -26,7 +25,7 @@ export class Task {
     user: User;
 
     // @ManyToOne(type => User, user => user.tasks)
-   // @JoinColumn({name: 'user_assigned_id', referencedColumnName: 'id'})
+    // @JoinColumn({name: 'user_assigned_id', referencedColumnName: 'id'})
 
     @Column()
     sprint_assigned_id: number;
@@ -37,7 +36,6 @@ export class Task {
 
     @Column()
     user_created_id: number;
-
 
     @Column()
     deadline: string;

@@ -3,15 +3,13 @@ import { ClientsService } from './clients.service';
 import { UsersService } from '../users/users.service';
 import {ClientsDto} from './clients.dto';
 import { Client } from './client.entity';
-//import { GraphqlAuthGuard } from '../auth/auth.guard';
-import { PermissionsGuard } from '../settings/permissions.guard';
 import {SetMetadata, UseGuards} from '@nestjs/common';
 
 @Resolver('Client')
 export class ClientResolver {
     constructor(
         private readonly clientsService: ClientsService,
-        private readonly usersService: UsersService
+        private readonly usersService: UsersService,
     ) {}
 
     @Query()
@@ -41,21 +39,18 @@ export class ClientResolver {
     @Mutation(() => ClientsDto)
     @SetMetadata('permissions', ['edit tasks'])
     async updateClient(@Args('client') client: any): Promise<Client> {
-        // console.log(id);
         return this.clientsService.update(client);
     }
 
     @Mutation()
     @SetMetadata('permissions', ['delete tasks'])
     async deleteClient(@Args('id') id: number): Promise<boolean> {
-       // console.log(id);
         return this.clientsService.delete(id);
     }
 
     @Mutation()
     @SetMetadata('permissions', ['delete tasks'])
-    async deleteClients(@Args('arr_id') arr_id: any): Promise<boolean> {
-        // console.log(id);
-        return this.clientsService.deleteAll(arr_id);
+    async deleteClients(@Args('arrId') arrId: any): Promise<boolean> {
+        return this.clientsService.deleteAll(arrId);
     }
 }

@@ -13,16 +13,15 @@ export class UsersComponent implements OnInit {
     displayedColumns = ['id', 'name', 'email', 'work_number', 'personal_number'];
     dataSource: any;
 
-    constructor(private _users: UsersService) {}
+    constructor(private usersService: UsersService) {}
 
     @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
     ngOnInit() {
-        this._users.getUsers().subscribe(res => {
-            this.users = res;
+        this.usersService.getUsers().subscribe(resUsers => {
+            this.users = resUsers;
 
             this.dataSource = new MatTableDataSource(this.users);
-            console.log(res);
             this.dataSource.paginator = this.paginator;
         });
     }

@@ -15,7 +15,7 @@ export class ChatService {
   public messages: Subject<Message>;
 
   constructor(wsService: WebsocketService) {
-    //const data = JSON.parse();
+    // const data = JSON.parse();
     wsService.sendMessage('Message');
     // this.messages = <Subject<Message>> wsService.connect(CHAT_URL).pipe(
     //     map(

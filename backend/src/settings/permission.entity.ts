@@ -1,4 +1,3 @@
-
 import {Entity, PrimaryGeneratedColumn, Column, OneToMany} from 'typeorm';
 import {RoleHasPermission} from './role_has_permission.entity';
 

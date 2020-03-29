@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SettingsService } from './settings.service';
-//import { ActivatedRoute } from "@angular/router";
-//import { FormGroup, FormBuilder } from '@angular/forms';
 import { Roles } from './settings.model';
-import { Permissions } from './permissions.model';
 import { ActivatedRoute } from '@angular/router';
-import {Lead} from '../leads/leads.model';
 
 @Component({
     selector: 'app-settings-update',
@@ -17,70 +13,50 @@ export class SettingsUpdateComponent implements OnInit {
     role: any = new Roles('');
     roles: Roles[] = [];
     permissions: object;
-    checked_permissions: object;
-    selected_checkbox = [];
-    unselected_checkbox = [];
-    role_perm = [];
-    // unselected_checkbox = [];
-    // perm: any = new Permissions([]);
-    // permission: Permissions[] = [];
-   // permissions: object;
+    checkedPermissions: object;
+    selectedCheckbox = [];
+    unselectedCheckbox = [];
+    rolePerm = [];
 
-    constructor(public _setting_obj: SettingsService, private route: ActivatedRoute) {
+    constructor(public settingsService: SettingsService, private route: ActivatedRoute) {
 
     }
     updateRole() {
-        //this.permission.push(new Permissions(this.perm.name));
-        this._setting_obj.getRoleByName(this.role.name).subscribe(res => {
+        this.settingsService.getRoleByName(this.role.name).subscribe(res => {
             this.roles.push(this.role.name);
-            this.role_perm.push(this.selected_checkbox, this.unselected_checkbox, this.roles);
-            //this.role_perm.push(this.roles, this.selected_checkbox);
-            console.log(this.roles);
-            console.log(this.role_perm);
-            /*this._setting_obj.updateRole(res[0]['id'], this.role_perm).subscribe(res => {
-                this.role = res;
-                console.log(res);
-            });*/
+            this.rolePerm.push(this.selectedCheckbox, this.unselectedCheckbox, this.roles);
         });
     }
     ngOnInit() {
-        this.route.params.subscribe( params => this._setting_obj.getOneRole(params['id']).subscribe(res => {
-            this.role = new Roles(res[0]['name']);
+        this.route.params.subscribe( params => this.settingsService.getOneRole(params['id']).subscribe(resOneRole => {
+            this.role = new Roles(resOneRole[0]['name']);
             this.id = params['id'];
-            console.log(res);
         }));
-        this._setting_obj.getPermissions().subscribe(res => {
-            this.permissions = res;
+        this.settingsService.getPermissions().subscribe( resPermissions => {
+            this.permissions = resPermissions;
             console.log(this.permissions);
         });
-        this.route.params.subscribe( params => this._setting_obj.getOneRoleHasPermission(params['id']).subscribe(res => {
-            this.id = params['id'];
-            console.log(this.id);
-            console.log(res);
-           // this.permissions = res['permissions'];
-           // if(res['permission']) {
-                this.checked_permissions = res;
-                console.log('Selected', this.checked_permissions);
-           // }
+        this.route.params.subscribe( params => this.settingsService.getOneRoleHasPermission(params['id']).subscribe( resOneRoleHasPermission => {
+                this.id = params['id'];
+                this.checkedPermissions = resOneRoleHasPermission;
+                console.log('Selected', this.checkedPermissions);
         }));
     }
     onCkeckboxSelected(value) {
-        if (this.selected_checkbox.indexOf( value ) != -1) {
-            this.selected_checkbox.splice(this.selected_checkbox.indexOf( value ), 1);
+        if (this.selectedCheckbox.indexOf( value ) !== -1) {
+            this.selectedCheckbox.splice(this.selectedCheckbox.indexOf( value ), 1);
+        } else {
+            this.selectedCheckbox.push(value);
         }
-        else {
-            this.selected_checkbox.push(value);
-        }
-        console.log(this.selected_checkbox);
+        console.log(this.selectedCheckbox);
     }
     onCkeckboxUnSelected(value) {
-        if (this.unselected_checkbox.indexOf( value ) != -1) {
-            this.unselected_checkbox.splice(this.unselected_checkbox.indexOf( value ), 1);
+        if (this.unselectedCheckbox.indexOf( value ) !== -1) {
+            this.unselectedCheckbox.splice(this.unselectedCheckbox.indexOf( value ), 1);
+        } else {
+            this.unselectedCheckbox.push(value);
         }
-        else {
-            this.unselected_checkbox.push(value);
-        }
-        console.log(this.unselected_checkbox);
+        console.log(this.unselectedCheckbox);
     }
 
 }

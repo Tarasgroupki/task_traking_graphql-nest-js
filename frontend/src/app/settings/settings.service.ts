@@ -1,17 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Apollo } from "apollo-angular";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
-//import 'rxjs/add/operator/catch';
-//import 'rxjs/add/observable/throw';
+import { Apollo } from 'apollo-angular';
+import { map } from 'rxjs/operators';
 import {Query} from '../types';
 import gql from 'graphql-tag';
 
 @Injectable()
 export class SettingsService {
-
-    //const API_URL = environment.apiUrl;
 
     constructor(private apollo: Apollo) {
     }
@@ -19,10 +13,7 @@ export class SettingsService {
     public getRoles() {
         return this.apollo.watchQuery<Query>({
             query: gql`
-                query roles { roles{id, name}}`,
-            context: {
-                headers: new HttpHeaders().set("Authorization", "Bearer " +  localStorage.getItem('token')),
-            }
+                query roles { roles{id, name}}`
         }).valueChanges
         .pipe(
             map(result => result.data.roles)
@@ -33,11 +24,8 @@ export class SettingsService {
         return this.apollo.watchQuery<Query>({
             query: gql`
                 query role($id: ID!) { role(id: $id){id, name}}`,
-            context: {
-                headers: new HttpHeaders().set("Authorization", "Bearer " +  localStorage.getItem('token')),
-            },
             variables: {
-                id: id
+                id
             }
         }).valueChanges
         .pipe(
@@ -49,11 +37,8 @@ export class SettingsService {
         return this.apollo.watchQuery<Query>({
             query: gql`
                 query role($id: ID!) { role(id: $id){id, name}}`,
-            context: {
-                headers: new HttpHeaders().set("Authorization", "Bearer " +  localStorage.getItem('token')),
-            },
             variables: {
-                id: id
+                id
             }
         }).valueChanges
         .pipe(
@@ -65,9 +50,6 @@ export class SettingsService {
         return this.apollo.watchQuery<Query>({
             query: gql`
                 query roleHasPermission($role_id: Int!) { roleHasPermission(role_id: $role_id){role_id, permission_id}}`,
-            context: {
-                headers: new HttpHeaders().set("Authorization", "Bearer " +  localStorage.getItem('token')),
-            },
             variables: {
                 role_id: +id
             }
@@ -81,11 +63,8 @@ export class SettingsService {
         return this.apollo.watchQuery<Query>({
             query: gql`
                 query role($name: String) { roleByName(name: $name){name}}`,
-            context: {
-                headers: new HttpHeaders().set("Authorization", "Bearer " +  localStorage.getItem('token')),
-            },
             variables: {
-                name: name
+                name
             }
         }).valueChanges
         .pipe(
@@ -96,10 +75,7 @@ export class SettingsService {
     public getPermissions() {
         return this.apollo.watchQuery<Query>({
             query: gql`
-                query permissions { permissions{id, name}}`,
-            context: {
-                headers: new HttpHeaders().set("Authorization", "Bearer " +  localStorage.getItem('token')),
-            }
+                query permissions { permissions{id, name}}`
         }).valueChanges
         .pipe(
             map(result => result.data.permissions)
@@ -114,9 +90,6 @@ export class SettingsService {
                     name
                 }
                 }`,
-            context: {
-                headers: new HttpHeaders().set("Authorization", "Bearer " +  localStorage.getItem('token')),
-            },
             variables: {
                 name: role.name
             }
