@@ -3,6 +3,7 @@ import { Apollo } from 'apollo-angular';
 import { map } from 'rxjs/operators';
 import {Query} from '../types';
 import gql from 'graphql-tag';
+import {HttpHeaders} from '@angular/common/http';
 
 @Injectable()
 export class SettingsService {
@@ -13,14 +14,33 @@ export class SettingsService {
     public getRoles() {
         return this.apollo.watchQuery<Query>({
             query: gql`
-                query roles { roles{id, name}}`
+                query roles { roles{id, name}}`,
+          context: {
+            headers: new HttpHeaders().set('Authorization', 'Bearer ' +  localStorage.getItem('token')),
+          }
         }).valueChanges
         .pipe(
             map(result => result.data.roles)
         );
     }
 
-    getOneRole(id: number) {
+     public getOneRole(id: number) {
+        return this.apollo.watchQuery<Query>({
+            query: gql`
+                query role($id: ID!) { role(id: $id){id, name}}`,
+            variables: {
+                id
+            },
+          context: {
+            headers: new HttpHeaders().set('Authorization', 'Bearer ' +  localStorage.getItem('token')),
+          }
+        }).valueChanges
+        .pipe(
+            map(result => result.data.role)
+        );
+    }
+
+    public getOnePermission(id: number) {
         return this.apollo.watchQuery<Query>({
             query: gql`
                 query role($id: ID!) { role(id: $id){id, name}}`,
@@ -33,20 +53,7 @@ export class SettingsService {
         );
     }
 
-    getOnePermission(id: number) {
-        return this.apollo.watchQuery<Query>({
-            query: gql`
-                query role($id: ID!) { role(id: $id){id, name}}`,
-            variables: {
-                id
-            }
-        }).valueChanges
-        .pipe(
-            map(result => result.data.role)
-        );
-    }
-
-    getOneRoleHasPermission(id: number) {
+    public getOneRoleHasPermission(id: number) {
         return this.apollo.watchQuery<Query>({
             query: gql`
                 query roleHasPermission($role_id: Int!) { roleHasPermission(role_id: $role_id){role_id, permission_id}}`,
@@ -59,7 +66,7 @@ export class SettingsService {
         );
     }
 
-    getRoleByName(name: string) {
+    public getRoleByName(name: string) {
         return this.apollo.watchQuery<Query>({
             query: gql`
                 query role($name: String) { roleByName(name: $name){name}}`,
@@ -92,7 +99,10 @@ export class SettingsService {
                 }`,
             variables: {
                 name: role.name
-            }
+            },
+          context: {
+            headers: new HttpHeaders().set('Authorization', 'Bearer ' +  localStorage.getItem('token')),
+          }
         });
     }
 

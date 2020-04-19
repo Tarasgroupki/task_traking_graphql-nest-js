@@ -14,7 +14,7 @@ export class AuthService {
 
   constructor(private apollo: Apollo) { }
 
-    getAuth(auth: any) {
+    public getAuth(auth: any) {
         return this.apollo.mutate({
           mutation: gql`
             mutation UserLogin($email: String!, $password: String!) { login(auth:{email: $email, password: $password}) {user{id, email, address, work_number, personal_number, image_path}, token, roles, permissions}}`,
@@ -29,8 +29,6 @@ export class AuthService {
          const token = localStorage.getItem('token');
 
          return !!token;
-
-
     }
 
 }

@@ -5,10 +5,8 @@ import {LeadsService} from './leads.service';
 import {ClientsService} from '../clients/clients.service';
 import {UsersService} from '../users/users.service';
 import {NotificationsService} from '../notifications/notifications.service';
-import {Inject} from '@nestjs/common';
+import {SetMetadata, Inject} from '@nestjs/common';
 import {PubSubEngine} from 'graphql-subscriptions';
-
-// import { InputLead } from './lead.input';
 
 @Resolver('Lead')
 export class LeadResolver {
@@ -21,11 +19,13 @@ export class LeadResolver {
     ) {}
 
     @Query()
+    @SetMetadata('permissions', ['create leads'])
     async leads() {
         return await this.leadsService.findAll();
     }
 
     @Query()
+    @SetMetadata('permissions', ['create leads'])
     async lead(@Args('id') id: number) {
         return await this.leadsService.findOne({id});
     }
@@ -43,6 +43,7 @@ export class LeadResolver {
     }
 
     @Mutation(() => LeadsDto)
+    @SetMetadata('permissions', ['create leads'])
     async createLead( @Args('lead') lead: any ): Promise<Lead> {
         await this.notificationsService.createNotification({name: 'Lead notification', description: 'You were added to the new lead', status: 0, user: lead.user_assigned});
         const leads = await this.leadsService.findOneByName(lead.title);
@@ -52,6 +53,7 @@ export class LeadResolver {
     }
 
     @Mutation(() => LeadsDto)
+    @SetMetadata('permissions', ['edit leads'])
     async updateLead(@Args('lead') lead: any): Promise<Lead> {
         await this.notificationsService.createNotification({name: 'Lead notification', description: 'You were added to the new lead', status: 0, user: lead.user_assigned});
         const notifications = await this.notificationsService.findMax();
@@ -61,12 +63,13 @@ export class LeadResolver {
     }
 
     @Mutation()
+    @SetMetadata('permissions', ['delete leads'])
     async deleteLead(@Args('id') id: number): Promise<boolean> {
         return this.leadsService.delete(id);
     }
 
     @Mutation()
-    //  @SetMetadata('permissions', ['delete tasks'])
+     @SetMetadata('permissions', ['delete leads'])
     async deleteLeads(@Args('arr_id') arrId: any): Promise<boolean> {
          return await this.leadsService.deleteAll(arrId);
     }

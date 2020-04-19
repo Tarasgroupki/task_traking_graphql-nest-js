@@ -1,4 +1,3 @@
-
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
@@ -8,10 +7,16 @@ import { RoleHasPermission} from './role_has_permission.entity';
 import { RolesService } from './roles.service';
 import { RolesController } from './roles.controller';
 import { RoleResolver } from './role.resolver';
+import {APP_GUARD} from '@nestjs/core';
+import {PermissionsGuard} from './permissions.guard';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Role, Permission, RoleHasPermission])],
-    providers: [RolesService, RoleResolver],
+    providers: [RolesService,{
+        provide: APP_GUARD,
+        useClass: PermissionsGuard,
+    }, RoleResolver,
+        ],
     controllers: [RolesController],
     exports: [RolesService],
 })

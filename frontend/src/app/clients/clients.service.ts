@@ -45,7 +45,7 @@ export class ClientsService {
         );
     }
 
-    getOneCLient(id: number) {
+    public getOneCLient(id: number) {
        return this.apollo.watchQuery<Query>({
             query: gql`
                 query client($id: ID!){client(id: $id) {
@@ -72,7 +72,7 @@ export class ClientsService {
         );
     }
 
-    createClient(client: any) {
+    public createClient(client: any) {
        return this.apollo.mutate({
             mutation: gql`
                 mutation createClient($name: String!, $email: String!, $primary_number: String!, $secondary_number: String!, $address: String!, $zipcode: String!, $city: String!, $company_name: String!, $vat: String!, $company_type: String!, $user_id: Int)
@@ -91,6 +91,9 @@ export class ClientsService {
                     user{id}
                 }
                 }`,
+            context: {
+              headers: new HttpHeaders().set('Authorization', 'Bearer ' +  localStorage.getItem('token')),
+            },
             variables: {
                 name: client.name,
                 email: client.email,
@@ -108,7 +111,7 @@ export class ClientsService {
         });
     }
 
-    updateClient(id: number, client: any) {
+    public updateClient(id: number, client: any) {
        return this.apollo.mutate({
             mutation: gql`
             mutation updateClient($id: Int!, $name: String!, $email: String!, $primary_number: String!, $secondary_number: String!, $address: String!, $zipcode: String!, $city: String!, $company_name: String!, $vat: String!, $company_type: String!, $user_id: Int!)
@@ -127,6 +130,9 @@ export class ClientsService {
                 user{id}
             }
             }`,
+            context: {
+              headers: new HttpHeaders().set('Authorization', 'Bearer ' +  localStorage.getItem('token')),
+            },
             variables: {
                 id,
                 name: client.name,
@@ -145,29 +151,34 @@ export class ClientsService {
         });
     }
 
-    deleteClient(id: number) {
+    public deleteClient(id: number) {
        return this.apollo.mutate({
             mutation: gql`
                 mutation deleteClient($id: ID!) {
                     deleteClient(id: $id)
                 }
             `,
+            context: {
+              headers: new HttpHeaders().set('Authorization', 'Bearer ' +  localStorage.getItem('token')),
+            },
             variables: {
                 id
             }
         });
     }
 
-    deleteClients(idArr: any) {
+    public deleteClients(idArr: any) {
         return this.apollo.mutate( {
            mutation: gql`
                mutation deleteClients($idArr: [Int]){deleteClients(arr_id: $idArr)}
            `,
+            context: {
+              headers: new HttpHeaders().set('Authorization', 'Bearer ' +  localStorage.getItem('token')),
+            },
             variables: {
                 idArr
             }
         });
     }
-
 
 }

@@ -27,10 +27,10 @@ export class GraphQLModule {
               httpLink: HttpLink,
               authService: AuthService) {
 
-    const token = (authService.token) ? authService.token : localStorage.getItem('token');
+    const token = (!localStorage.getItem('token')) ? authService.token : localStorage.getItem('token');
     const authorization = token ? `Bearer ${token}` : null;
     const headers = new HttpHeaders().append('Authorization', authorization);
-
+    console.log(token);
     const uri = 'http://localhost:8000/graphql';
     const http = httpLink.create({ uri, headers });
 

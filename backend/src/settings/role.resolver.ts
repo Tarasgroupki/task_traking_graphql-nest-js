@@ -2,6 +2,7 @@ import { Query, Mutation, Resolver, Args, ResolveProperty, Parent} from '@nestjs
 import { RolesService } from './roles.service';
 import {LeadsDto} from '../leads/leads.dto';
 import {Role} from './role.entity';
+import { SetMetadata } from '@nestjs/common';
 
 @Resolver('Role')
 export class RoleResolver {
@@ -10,6 +11,7 @@ export class RoleResolver {
     ) {}
 
     @Query()
+    @SetMetadata('permissions', ['create roles'])
     async roles() {
         return await this.rolesService.findAll();
     }
@@ -20,6 +22,7 @@ export class RoleResolver {
     }
 
     @Query()
+    @SetMetadata('permissions', ['create roles'])
     async role(@Args('id') id: number) {
         return await this.rolesService.findOne({id});
     }
@@ -40,6 +43,7 @@ export class RoleResolver {
     }
 
     @Mutation(() => LeadsDto)
+    @SetMetadata('permissions', ['create roles'])
     async createRole( @Args('role') role: any ): Promise<Role> {
         return this.rolesService.createRole(role);
     }

@@ -2,6 +2,7 @@ import { Query, Resolver, Args, ResolveProperty, Parent } from '@nestjs/graphql'
 import { SprintsService } from './sprints.service';
 import { LeadsService } from '../leads/leads.service';
 import { UsersService } from '../users/users.service';
+import { SetMetadata } from '@nestjs/common';
 
 @Resolver('Sprint')
 export class SprintResolver {
@@ -12,6 +13,7 @@ export class SprintResolver {
     ) {}
 
     @Query()
+    @SetMetadata('permissions', ['create sprints'])
     async sprints() {
         return await this.sprintsService.findAll();
     }
@@ -29,6 +31,7 @@ export class SprintResolver {
     }
 
     @Query()
+    @SetMetadata('permissions', ['create sprints'])
     async sprint(@Args('id') id: number) {
         return await this.sprintsService.findOne({id});
     }

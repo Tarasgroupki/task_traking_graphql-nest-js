@@ -13,13 +13,13 @@ export class ClientResolver {
     ) {}
 
     @Query()
-    @SetMetadata('permissions', ['create tasks'])
+    @SetMetadata('permissions', ['create clients'])
     async clients() {
         return await this.clientsService.findAll();
     }
 
     @Query()
-    @SetMetadata('permissions', ['create tasks'])
+    @SetMetadata('permissions', ['create clients'])
     async client(@Args('id') id: number) {
         return await this.clientsService.findOne({id});
     }
@@ -31,25 +31,25 @@ export class ClientResolver {
     }
 
     @Mutation(() => ClientsDto)
-    @SetMetadata('permissions', ['create tasks'])
+    @SetMetadata('permissions', ['create clients'])
     createClient( @Args('client') client: any ): Promise<Client> {
         return this.clientsService.createClient(client);
     }
 
     @Mutation(() => ClientsDto)
-    @SetMetadata('permissions', ['edit tasks'])
+    @SetMetadata('permissions', ['edit clients'])
     async updateClient(@Args('client') client: any): Promise<Client> {
         return this.clientsService.update(client);
     }
 
     @Mutation()
-    @SetMetadata('permissions', ['delete tasks'])
+    @SetMetadata('permissions', ['delete clients'])
     async deleteClient(@Args('id') id: number): Promise<boolean> {
         return this.clientsService.delete(id);
     }
 
     @Mutation()
-    @SetMetadata('permissions', ['delete tasks'])
+    @SetMetadata('permissions', ['delete clients'])
     async deleteClients(@Args('arrId') arrId: any): Promise<boolean> {
         return this.clientsService.deleteAll(arrId);
     }

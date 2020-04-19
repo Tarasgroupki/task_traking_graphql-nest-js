@@ -18,7 +18,7 @@ export class UsersProfileComponent implements OnInit {
     roles = [];
     roleList: string;
 
-    constructor(public userObj: UsersService, private route: ActivatedRoute) {
+    constructor(public usersService: UsersService, private route: ActivatedRoute) {
 
     }
     ngOnInit() {
@@ -27,7 +27,7 @@ export class UsersProfileComponent implements OnInit {
         }
         this.roleList = this.roles.join();
         console.log(this.roles);
-        this.userObj.getOneUser(this.LogginningData.user.id).subscribe(resOneUser => {
+        this.usersService.getOneUser(this.LogginningData.user.id).subscribe(resOneUser => {
             this.user = new User(resOneUser[0]['name'], resOneUser[0]['email'], resOneUser[0]['password'], resOneUser[0]['address'], resOneUser[0]['work_number'], resOneUser[0]['personal_number'], resOneUser[0]['image_path']);
             console.log(this.user);
         });

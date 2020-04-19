@@ -2,6 +2,7 @@ import { Query, Resolver, Args, ResolveProperty, Parent } from '@nestjs/graphql'
 import { TasksService } from './tasks.service';
 import {SprintsService} from '../sprints/sprints.service';
 import {UsersService} from '../users/users.service';
+import { SetMetadata } from '@nestjs/common';
 
 @Resolver('Task')
 export class TaskResolver {
@@ -12,6 +13,7 @@ export class TaskResolver {
     ) {}
 
     @Query()
+    @SetMetadata('permissions', ['create tasks'])
     async tasks() {
         return await this.tasksService.findAll();
     }
@@ -29,6 +31,7 @@ export class TaskResolver {
     }
 
     @Query()
+    @SetMetadata('permissions', ['create tasks'])
     async task(@Args('id') id: number) {
         return await this.tasksService.findOne({id});
     }

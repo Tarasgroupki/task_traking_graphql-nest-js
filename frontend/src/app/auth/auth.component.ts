@@ -27,13 +27,9 @@ export class AuthComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        // window.location.reload();
-       // if (localStorage.getItem('LoggedIn')) {
-        //    this._router.navigate(['clients']);
-      //  }
-        //  else {
-        //      this._router.navigate(['login']);
-        //   }
+      if (this.authService.isAuthenticated()) {
+        this.router.navigate(['profile']);
+      }
     }
 
     getAuth() {

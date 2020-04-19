@@ -38,10 +38,13 @@ export class LeadsService {
         );
     }
 
-    getOneLead(id: number) {
+    public getOneLead(id: number) {
         return this.apollo.watchQuery<Query>({
             query: gql`
                 query lead($id: ID!) {lead(id: $id){id, title, description, status, client{id, name}, user{id, name}, contact_date}}`,
+            context: {
+              headers: new HttpHeaders().set('Authorization', 'Bearer ' +  localStorage.getItem('token')),
+            },
             variables: {
                 id
             }
@@ -51,7 +54,7 @@ export class LeadsService {
         );
     }
 
-    createLead(lead: any) {
+    public createLead(lead: any) {
         return this.apollo.mutate({
             mutation: gql`
                 mutation createLead($title: String!, $description: String!, $status: Int!, $user_assigned: Int!, $client: Int!, $user_created: Int!, $contact_date: Date)
@@ -63,6 +66,9 @@ export class LeadsService {
                     user_assigned
                 }
                 }`,
+            context: {
+              headers: new HttpHeaders().set('Authorization', 'Bearer ' +  localStorage.getItem('token')),
+            },
             variables: {
                 title: lead.title,
                 description: lead.description,
@@ -75,7 +81,7 @@ export class LeadsService {
         });
     }
 
-    updateLead(id: number, lead: any) {
+    public updateLead(id: number, lead: any) {
         lead.user_assigned = +lead.user;
         lead.client = +lead.client;
         return this.apollo.mutate({
@@ -91,6 +97,9 @@ export class LeadsService {
                     contact_date
                 }
                 }`,
+            context: {
+              headers: new HttpHeaders().set('Authorization', 'Bearer ' +  localStorage.getItem('token')),
+            },
             variables: {
                 id,
                 title: lead.title,
@@ -104,33 +113,39 @@ export class LeadsService {
         });
     }
 
-    deleteLead(id: number) {
+    public deleteLead(id: number) {
         return this.apollo.mutate({
             mutation: gql`
                 mutation deleteLead($id: ID!) {
                     deleteLead(id: $id)
                 }
             `,
+            context: {
+              headers: new HttpHeaders().set('Authorization', 'Bearer ' +  localStorage.getItem('token')),
+            },
             variables: {
                 id
             }
         });
     }
 
-    deleteLeads(idArr: any) {
+    public deleteLeads(idArr: any) {
         return this.apollo.mutate( {
             mutation: gql`
                 mutation deleteLeads($idArr:[Int]) {
                     deleteLeads(arr_id:$idArr)
                 }
             `,
+            context: {
+              headers: new HttpHeaders().set('Authorization', 'Bearer ' +  localStorage.getItem('token')),
+            },
             variables: {
                 idArr
             }
         });
     }
 
-    subscribeLead() {
+    public subscribeLead() {
       return this.apollo.subscribe({
         query: gql`
          subscription {
