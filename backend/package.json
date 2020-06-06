@@ -29,7 +29,7 @@
     "@nestjs/websockets": "^6.8.3",
     "@nestjsx/crud": "^4.2.0",
     "@nestjsx/crud-typeorm": "^4.2.0",
-    "apollo-server-express": "^2.9.7",
+    "apollo-server-express": "^2.14.2",
     "bcrypt": "^3.0.6",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.10.1",
